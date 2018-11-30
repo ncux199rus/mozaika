@@ -4,7 +4,7 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const router = express.Router();
+//const router = express.Router();
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
 
@@ -34,14 +34,20 @@ app.post("/login", urlencodedParser, function(req, res){
 app.post('/', jsonParser, function(req, res){
     if(!req.body) return res.sendStatus(400);
     console.log("req.body = " ,req.body);
-    var json = req.body;
+    var jsonCard = (req.body);
     
-   // var jsonParse = JSON.parse(json);
+    var dir = __dirname + "\\" + req.body.nameClass;
+    console.log(dir);
+    if (!fs.existsSync(dir)){ 
+        fs.mkdirSync(dir);
+    };
     
-    //console.log(jsonParse);
-
-    //console.log(jsonParse.result);
-    //res.send("console.log(res.send)");
+    var meta = req.body.cardMeta;
+    fs.writeFileSync(dir + '\meta.json', meta);
+    //fs.writeFile(dir + '/meta.json', jsonCard[2]);
+    
+    
+   
     
 });
 
