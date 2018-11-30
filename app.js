@@ -5,6 +5,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const router = express.Router();
+// создаем парсер для данных в формате json
+const jsonParser = express.json();
 
 app.use('/classes', express.static(__dirname + "/public/classes"));
 
@@ -29,13 +31,14 @@ app.post("/login", urlencodedParser, function(req, res){
     res.send(`${req.body.userLogin} - ${req.body.userPassword}`);
 });
 
-app.post('/', urlencodedParser, function(req, res){
-    //if(!req.body) return res.sendStatus(400);
-    console.log(req.body);
+app.post('/', jsonParser, function(req, res){
+    if(!req.body) return res.sendStatus(400);
+    console.log("req.body = " ,req.body);
+    var json = req.body;
     
-    JSON.parse(req.body);
+   // var jsonParse = JSON.parse(json);
     
-    //console.log(jsonParse.nameClass);
+    //console.log(jsonParse);
 
     //console.log(jsonParse.result);
     //res.send("console.log(res.send)");

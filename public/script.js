@@ -45,16 +45,22 @@ var sendJSON = function (){
 
 var postJSON = function(){
     console.log("postJSON");
-    
-    var formData = new FormData(document.forms.postCard);   
+    var objectFormData = {};
+        
+    var formData = new FormData(document.forms.postCard);  
+    formData.append("icon", "icon.ico");//добавление пути иконки    
+    formData.forEach(function(value, key){
+        objectFormData[key] = value;
+    });     
+    var formJson = JSON.stringify(objectFormData);
+        
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    
+    xhr.open("POST", "/", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function() {//Call a function when the state changes.
-        if(xhr.readyState == 4 && xhr.status == 200) {
+        if(xhr.readyState === 4 && xhr.status === 200) {
             alert(xhr.responseText);
         }
     };
-    xhr.send(formData);
+    xhr.send(formJson);
 };
