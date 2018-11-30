@@ -1,0 +1,23 @@
+.card{
+    display: none;
+}
+
+table, th, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 500px;
+}
+.buttonAdd{
+    background-color: #FFE4E1;
+    border: 2px solid #D8BFD8;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.visible{
+    display: block;
+}
+
+.unvisible{
+    display: none;
+}

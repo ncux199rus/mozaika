@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>metadata</title>
+        <meta charset="UTF-8">
+        <meta name="main" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <main id="main" class="main">
+            <h1>public</h1>
+            <table>
+                <thead>
+                    <th>
+                        <button type="button" name="add" class="buttonAdd" onclick="changePage('main', 'card')">add</button>
+                        Name
+                    </th>
+                    <th>Description</th>
+                    <th>dataChange</th>
+                </thead>
+            </table>
+        </main>
+
+        <section id="card" class="card">
+            <form class="postCard" action="index.html" method="post" name="postCard">
+                <label for="nameClass">Имя класса</label>
+                <input id="nameClass" type="text" name="nameClass" value="Имя класса">
+                <br>
+                <label for="descClass">Описание класса</label>
+                <input id="descClass" type="text" name="descClass" value="Описание класса">
+                <br>
+                <label for="cardMeta">meta</label>
+                <textarea id="cardMeta" name="cardMeta" rows="8" cols="80"></textarea>
+                <br>
+                <label for="cardHtml">html</label>
+                <textarea id="cardHtml" name="cardHtml" rows="8" cols="80"></textarea>
+                <br>
+                <label for="cardCss">css</label>
+                <textarea id="cardCss" name="cardCss" rows="8" cols="80"></textarea>
+                <br>
+                <div class="cardIcon">
+                    <label for="cardIcon">Icon</label>
+                </div>
+            </form>
+            <br>
+            <input type="submit" id="getCard" name="getCard" value="Получить" onclick="sendJSON()">
+            <br>
+            <input type="submit" id="submitCard" name="save" value="Сохранить" onclick="postJSON()">
+            <br>
+            <button type="button" name="cancel" onclick="changePage('card', 'main')">Отмена</button>
+        </section>
+        <script type="text/javascript" src="script.js"></script>
+    </body>
+</html>

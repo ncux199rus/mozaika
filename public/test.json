@@ -1,0 +1,18 @@
+[
+    {
+        "nameClass": "nameClass1 data1"
+    },
+    {
+        "descClass": "descClass data"
+    },
+    {
+        "cardMeta": "cardMeta data"
+    },
+    {
+
+        "cardHtml": "cardHtml data"
+    },
+    {
+        "cardCss": "cardCss data"
+    }
+]
