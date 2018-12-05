@@ -8,13 +8,13 @@ const bodyParser = require("body-parser");
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
 
-app.use('/classes', express.static(__dirname + "/public/classes"));
+//app.use('/classes', express.static(__dirname + "/public/classes"));
 
-app.get('/login', express.static(__dirname + "/public/login"));
+//app.get('/login', express.static(__dirname + "/public/login"));
 
-app.use('/add', express.static(__dirname + "/add"));
+//app.use('/add', express.static(__dirname + "/add"));
 
-app.use('/', express.static(__dirname + "/public"));
+//
 
 //parser for data login-password
 const urlencodedParser = bodyParser.urlencoded({extended: false});
@@ -32,7 +32,8 @@ app.post("/login", urlencodedParser, function(req, res){
 });
 
 //запись метаданных в каталог /classes
-app.post('/', jsonParser, function(req, res){
+app.post('/', jsonParser, function(req, res, next){
+    
     console.log("запись метаданных в каталог /classes");
     if(!req.body) return res.sendStatus(400);
     console.log("req.body = " ,req.body);
@@ -44,13 +45,19 @@ app.post('/', jsonParser, function(req, res){
         fs.mkdirSync(dir);
     };
 
+    
+//    if (next){
+//        console.log("error");
+//        return next(err);
+//    };
+    
     var meta = req.body.cardMeta;
     fs.writeFileSync(dir + '/meta.json', meta);
     //fs.writeFile(dir + '/meta.json', jsonCard[2]);
 });
 
 //получение списка мета объектов
-app.get("/classes", function(req, res){
+app.get("/classes", function(request, responce){
     console.log("получение списка мета объектов");
     var classes = [];
     function getObjectType(name){
@@ -66,11 +73,11 @@ app.get("/classes", function(req, res){
                 };
                 
                 if (stats.isFile()) {
-                    console.log(path, ' - file');
+                    //console.log(path, ' - file');
                     res('file');
                 }
                 if (stats.isDirectory()) {
-                    console.log(path, '- directory;', 'name - ', name);
+                    //console.log(path, '- directory;', 'name - ', name);
                     classes.push(name);
                     res('directory');
                 }                
@@ -85,16 +92,17 @@ app.get("/classes", function(req, res){
             return(1);
         };
         if (files){
-            console.log("fs.readdir files = ", files);            
+            //console.log("fs.readdir files = ", files);            
             
             /*for (var i = 0; i < files.length; i++)
                 promises.push(getObjectType(files[i]));
             */
             Promise.all(files.map(getObjectType))
                     .then(res => {
-                        console.log(res);
-                        //classes = res;
-                        console.log(classes);                        
+                        //console.log(res);                        
+                        //console.log(classes);
+                        
+                        responce.send(classes);
                     })                    
                     .catch(rej => {
                         console.log('rej = ',rej);
@@ -103,8 +111,16 @@ app.get("/classes", function(req, res){
     });
 });
 
+app.use('/', express.static(__dirname + "/public"));
+
+app.use(function(err, req, res) {
+    res.send('Ошибка!' + err.emssage);
+    
+});
+
 
 app.listen(3000, function(){
     console.log("Started server node.js port: 3000");
 });
+
 //fs.console.dir();

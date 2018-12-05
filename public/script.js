@@ -79,8 +79,11 @@ function getListClasses(){
         if (xhr.status !== 200){
             alert( xhr.status + ": " + xhr.statusText);
         }else{
-            console.log(xhr.responseText);
+            a = JSON.parse(xhr.responseText);
+            a.forEach(function(item, i, a){
+                 console.log(a[i]);
+            });
+               
         };
-    };
-    
+    };    
 };
