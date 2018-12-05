@@ -31,7 +31,7 @@ app.post("/login", urlencodedParser, function(req, res){
     res.send(`${req.body.userLogin} - ${req.body.userPassword}`);
 });
 
-
+//запись метаданных в каталог /classes
 app.post('/', jsonParser, function(req, res){
     if(!req.body) return res.sendStatus(400);
     console.log("req.body = " ,req.body);
@@ -49,51 +49,58 @@ app.post('/', jsonParser, function(req, res){
 });
 
 //получение списка мета объектов
-//app.get("/classes", function(req, res){
+app.get("/classes", function(req, res){
+    console.log("получение списка мета объектов");
+    var classes = [];
+    function getObjectType(name){
+        
+        return new Promise((res, rej) =>{
 
-    var promise = new Promise((res, rej) =>{
-        res(0);
-        rej(1);
-    });
+            var path = dir + name;
+            fs.stat(path, function(err, stats){                    
+                //console.log(i, files[i]);
+                if (err){
+                    console.log("fs.stat error = ", err);
+                    rej(err);;
+                };
+                
+                if (stats.isFile()) {
+                    console.log(path, ' - file');
+                    res('file');
+                }
+                if (stats.isDirectory()) {
+                    console.log(path, '- directory;', 'name - ', name);
+                    classes.push(name);
+                    res('directory');
+                }                
+            });            
+        });
+    };
     var dir = './public/classes/';
     fs.readdir(dir, function(err, files){
         if (err){
+            
             console.log("fs.readdir error = ", err);
             return(1);
         };
         if (files){
-            console.log("fs.readdir files = ", files);
+            console.log("fs.readdir files = ", files);            
             
-            
-            for (var i = 0; i < files.length; i++){
-                
-                var path = files[i];
-                console.log('path = ', path);                
-                
-                fs.stat(dir + files[i], function(err, stats){                    
-                    console.log(i, files[i]);
-                    if (err){
-                        console.log("fs.stat error = ", err);
-                        return(1);
-                    };
-                    if (stats.isFile()) {
-                        console.log('    file');
-                    }
-                    if (stats.isDirectory()) {
-                        console.log(dir + path, '    directory');
-                        
-                    }
-                    /*
-                    if (stats){
-                        
-                        console.log("fs.stat = ", stats);
-                    } 
-                    */
-                });                
-            }
+            /*for (var i = 0; i < files.length; i++)
+                promises.push(getObjectType(files[i]));
+            */
+            Promise.all(files.map(getObjectType))
+                    .then(res => {
+                        console.log(res);
+                        //classes = res;
+                        console.log(classes);                        
+                    })                    
+                    .catch(rej => {
+                        console.log('rej = ',rej);
+                    });            
         }
     });
-//})
+});
 
 
 app.listen(3000, function(){
