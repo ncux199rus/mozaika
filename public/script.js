@@ -24,36 +24,37 @@ var sendJSON = function (){
     req.send();
     req.onreadystatechange = function(){
         if (req.readyState !==4) return;
-        
-        if (req.status !== 200){            
+
+        if (req.status !== 200){
             alert( req.status + ": " + req.statusText);
-        } else {            
+        } else {
             a = JSON.parse(req.responseText);
             //console.log("a = ", a);
             for (var keyJSON in a){
                 for (var i in a[keyJSON]){
                     //console.log("Ключ i: " + i + " значение: " + a[keyJSON][i] );
                     document.getElementById(i).value = a[keyJSON][i];
-                }                
+                }
                 //console.log("Ключ: " + keyJSON + " значение: " + a[keyJSON] );
             }
             //document.getElementById("nameClass").value = a["cardMeta"];
             //meta.value += req.responseText;
-        }    
+        }
     };
 };
 
+// запись изменений в тип метаданных
 var postJSON = function(){
     console.log("postJSON");
     var objectFormData = {};
-        
-    var formData = new FormData(document.forms.postCard);  
-    formData.append("icon", "icon.ico");//добавление пути иконки    
+
+    var formData = new FormData(document.forms.postCard);
+    formData.append("icon", "icon.ico");//добавление пути иконки
     formData.forEach(function(value, key){
         objectFormData[key] = value;
-    });     
+    });
     var formJson = JSON.stringify(objectFormData);
-        
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/", true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -63,4 +64,21 @@ var postJSON = function(){
         }
     };
     xhr.send(formJson);
+};
+
+//получение списка типов метаданных
+function getListClasses(){
+    console.log("getListClasses");
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/classes', true);
+    xhr.send();
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState !==4) return;
+
+        if (xhr.status !== 200){
+            alert( xhr.status + ": " + xhr.statusText);
+        }else{
+            console.log(xhr.responseText);
+        };
+    };
 };
