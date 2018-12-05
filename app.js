@@ -33,6 +33,7 @@ app.post("/login", urlencodedParser, function(req, res){
 
 //запись метаданных в каталог /classes
 app.post('/', jsonParser, function(req, res){
+    console.log("запись метаданных в каталог /classes");
     if(!req.body) return res.sendStatus(400);
     console.log("req.body = " ,req.body);
     var jsonCard = (req.body);

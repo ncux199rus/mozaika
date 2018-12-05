@@ -69,6 +69,7 @@ var postJSON = function(){
 //получение списка типов метаданных
 function getListClasses(){
     console.log("getListClasses");
+    
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/classes', true);
     xhr.send();
@@ -81,4 +82,5 @@ function getListClasses(){
             console.log(xhr.responseText);
         };
     };
+    
 };
