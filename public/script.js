@@ -81,7 +81,11 @@ function getListClasses(){
         }else{
             a = JSON.parse(xhr.responseText);
             a.forEach(function(item, i, a){
-                 console.log(a[i]);
+                let newRow = document.createElement('tr');
+                let newData = document.createElement('td');
+                newRow.appendChild(newData);
+                tableClasses.appendChild(newRow);
+                console.log(a[i]);
             });
                
         };

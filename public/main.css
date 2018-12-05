@@ -2,10 +2,11 @@
     display: none;
 }
 
-table, th, td{
+table, th, tr, td{
     border: 1px solid black;
     border-collapse: collapse;
     width: 500px;
+    min-height: 50px;
 }
 .buttonAdd{
     background-color: #FFE4E1;
