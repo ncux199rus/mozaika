@@ -38,25 +38,49 @@ app.post('/', jsonParser, function(req, res, next){
     if(!req.body) return res.sendStatus(400);
     console.log("req.body = " ,req.body);
     var jsonCard = req.body;
+    var keyCard = [];
+    for (var key in jsonCard){
+        keyCard.push(key);
+        //keyCard.shift(); //удаляем первый элемент т.к. он каталог
+        
+    };
+    console.log(jsonCard);
+    console.log(keyCard);
     
-    var dir = __dirname + "/public/classes/" + req.body.nameClass;
-    console.log("dir = ", dir);
-    if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
+    var fileListCard = ['/description.txt', '/meta.json', '/index.html', '/main.css', '/icon.ico'];
+    var home = '/public/classes/';
+    
+    var dir = __dirname + home + req.body.nameClass;
+    
+    console.log("dir = ", home+jsonCard.nameClass);
+    
+    if (keyCard.length - 1 === fileListCard.length){
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        };
+//        if (!fs.existsSync(dir)){
+//            fs.mkdirSync(dir);
+//        };
+        for (var i = 0; i < fileListCard.length; i++){
+            var objName = jsonCard[keyCard[i+1]];
+            console.log(fileListCard[i], objName);
+            fs.writeFileSync(dir + fileListCard[i], objName);
+        };
     };
     
     
-//    if (next){
+    
+    //    if (next){
 //        console.log("error");
 //        return next(err);
 //    };
     
-    //var meta = req.body.cardMeta;
-    fs.writeFileSync(dir + '/description.txt', jsonCard.descClass);
-    fs.writeFileSync(dir + '/meta.json', jsonCard.cardMeta);
-    fs.writeFileSync(dir + '/index.html', jsonCard.cardHtml);
-    fs.writeFileSync(dir + '/main.css', jsonCard.cardCss);
-    //fs.writeFile(dir + '/meta.json', jsonCard[2]);
+    
+//    fs.writeFileSync(dir + '/description.txt', jsonCard.descClass);
+//    fs.writeFileSync(dir + '/meta.json', jsonCard.cardMeta);
+//    fs.writeFileSync(dir + '/index.html', jsonCard.cardHtml);
+//    fs.writeFileSync(dir + '/main.css', jsonCard.cardCss);
+    
 });
 
 //получение списка мета объектов
