@@ -41,9 +41,10 @@ var sendJSON = function (){
             //meta.value += req.responseText;
         }
     };
+    
 };
 
-// запись изменений в тип метаданных
+// запись изменений в каталог метаданных
 var postJSON = function(){
     console.log("postJSON");
     var objectFormData = {};
