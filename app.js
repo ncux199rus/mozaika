@@ -37,22 +37,25 @@ app.post('/', jsonParser, function(req, res, next){
     console.log("запись метаданных в каталог /classes");
     if(!req.body) return res.sendStatus(400);
     console.log("req.body = " ,req.body);
-    var jsonCard = (req.body);
-
+    var jsonCard = req.body;
+    
     var dir = __dirname + "/public/classes/" + req.body.nameClass;
     console.log("dir = ", dir);
     if (!fs.existsSync(dir)){
         fs.mkdirSync(dir);
     };
-
     
-    if (next){
-        console.log("error");
-        return next(err);
-    };
     
-    var meta = req.body.cardMeta;
-    fs.writeFileSync(dir + '/meta.json', meta);
+//    if (next){
+//        console.log("error");
+//        return next(err);
+//    };
+    
+    //var meta = req.body.cardMeta;
+    fs.writeFileSync(dir + '/description.txt', jsonCard.descClass);
+    fs.writeFileSync(dir + '/meta.json', jsonCard.cardMeta);
+    fs.writeFileSync(dir + '/index.html', jsonCard.cardHtml);
+    fs.writeFileSync(dir + '/main.css', jsonCard.cardCss);
     //fs.writeFile(dir + '/meta.json', jsonCard[2]);
 });
 
@@ -111,6 +114,7 @@ app.get("/classes", function(request, responce){
     });
 });
 
+//подклюсение /public как каталога по умолчанию
 app.use('/', express.static(__dirname + "/public"));
 
 app.use(function(err, req, res) {
