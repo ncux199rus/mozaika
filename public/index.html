@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="main" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="main.css">
     </head>
-    <body>
+    <body onload="getListClasses()">
         <main id="main" class="main">
             <h1>public</h1>
             <table id="tableClasses">
@@ -56,6 +56,7 @@ and open the template in the editor.
             <br>
             <button type="button" name="cancel" onclick="changePage('card', 'main')">Отмена</button>
         </section>
+        <script type="text/javascript" src="js/getObjectClasses.js"></script>
         <script type="text/javascript" src="script.js"></script>
     </body>
 </html>

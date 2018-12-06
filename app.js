@@ -78,7 +78,7 @@ app.get("/classes", function(request, responce){
                 }
                 if (stats.isDirectory()) {
                     //console.log(path, '- directory;', 'name - ', name);
-                    classes.push(name);
+                    classes.push(name);                    
                     res('directory');
                 }                
             });            
@@ -101,7 +101,7 @@ app.get("/classes", function(request, responce){
                     .then(res => {
                         //console.log(res);                        
                         //console.log(classes);
-                        
+                        classes = JSON.stringify(classes);
                         responce.send(classes);
                     })                    
                     .catch(rej => {

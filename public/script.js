@@ -86,6 +86,7 @@ function getListClasses(){
                 let newDataDesc = document.createElement('td');
                 let newDataChange = document.createElement('td');
                 newDataName.innerHTML = a[i];
+                newRow.addEventListener("click", getObjectClasses);
                 console.log("newDataName.value = ", newDataName.innerHTML);
                 newRow.appendChild(newDataName);
                 newRow.appendChild(newDataDesc);

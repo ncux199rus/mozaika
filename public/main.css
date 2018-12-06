@@ -2,13 +2,29 @@
     display: none;
 }
 
-table, th, tr, td{
+table{
     border: 1px solid black;
     border-collapse: collapse;
     width: 500px;
     min-height: 100px;
     text-align: center;
 }
+th{
+    border: 2px solid black;
+    font-weight: bold;
+}
+tr{
+    
+}
+
+td{
+    border: 1px solid black;
+    font-family: sans-serif;
+    background-color: #ffe6ff;
+    color: #cc0099;
+}
+
+
 .buttonAdd{
     background-color: #FFE4E1;
     border: 2px solid #D8BFD8;
