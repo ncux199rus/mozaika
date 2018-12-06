@@ -82,8 +82,14 @@ function getListClasses(){
             a = JSON.parse(xhr.responseText);
             a.forEach(function(item, i, a){
                 let newRow = document.createElement('tr');
-                let newData = document.createElement('td');
-                newRow.appendChild(newData);
+                let newDataName = document.createElement('td');
+                let newDataDesc = document.createElement('td');
+                let newDataChange = document.createElement('td');
+                newDataName.innerHTML = a[i];
+                console.log("newDataName.value = ", newDataName.innerHTML);
+                newRow.appendChild(newDataName);
+                newRow.appendChild(newDataDesc);
+                newRow.appendChild(newDataChange);
                 tableClasses.appendChild(newRow);
                 console.log(a[i]);
             });

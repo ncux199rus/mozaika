@@ -46,10 +46,10 @@ app.post('/', jsonParser, function(req, res, next){
     };
 
     
-//    if (next){
-//        console.log("error");
-//        return next(err);
-//    };
+    if (next){
+        console.log("error");
+        return next(err);
+    };
     
     var meta = req.body.cardMeta;
     fs.writeFileSync(dir + '/meta.json', meta);
