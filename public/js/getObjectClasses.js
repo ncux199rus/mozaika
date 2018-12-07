@@ -22,7 +22,15 @@ function getObjectClasses(){
     changePage('main', 'card');
     sendJSON();
     
+    console.log("testSetListClasses");
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/classes/42', true);
+    xhr.send();
     
 };
 
-
+function testSetListClasses(){
+    //console.log("gtestSetListClasses");
+    
+    
+}

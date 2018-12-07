@@ -18,6 +18,7 @@ var changePage = function(beforePage, afterPage){
 //json to server from card
 var sendJSON = function (){
     //console.log("sendJSON");
+    
     var a = {};
     var req = new XMLHttpRequest();
     req.open('GET', "test.json", true);
@@ -68,6 +69,7 @@ var postJSON = function(){
 };
 
 //получение списка типов метаданных
+//добавление списка объектов метаданных на главную страницу
 function getListClasses(){
     console.log("getListClasses");
     

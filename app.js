@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 //const router = express.Router();
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
+const router = express.Router();
 
 //app.use('/classes', express.static(__dirname + "/public/classes"));
 
@@ -19,6 +20,7 @@ const jsonParser = express.json();
 //parser for data login-password
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 
+//
 app.post("/login", urlencodedParser, function(req, res){
     if(!req.body) return res.sendStatus(400);
     console.log("req.body login = " ,req.body);
@@ -83,12 +85,10 @@ app.post('/', jsonParser, function(req, res, next){
     
 });
 
-//получение списка мета объектов
-app.get("/classes", function(request, responce){
-    console.log("получение списка мета объектов");
-    var classes = [];
-    function getObjectType(name){
-        
+
+
+    function getObjectType(name, dir, classes){
+    var dir = './public/classes/';    
         return new Promise((res, rej) =>{
 
             var path = dir + name;
@@ -100,7 +100,7 @@ app.get("/classes", function(request, responce){
                 };
                 
                 if (stats.isFile()) {
-                    //console.log(path, ' - file');
+                    file.push(name);
                     res('file');
                 }
                 if (stats.isDirectory()) {
@@ -111,7 +111,13 @@ app.get("/classes", function(request, responce){
             });            
         });
     };
-    var dir = './public/classes/';
+
+//получение списка мета объектов
+app.get("/classes", function(request, responce){
+    console.log("получение списка мета объектов");    
+    var classes = [];
+    var file = [];
+    var dir = './public/classes/'; 
     fs.readdir(dir, function(err, files){
         if (err){
             
@@ -124,27 +130,52 @@ app.get("/classes", function(request, responce){
             /*for (var i = 0; i < files.length; i++)
                 promises.push(getObjectType(files[i]));
             */
-            Promise.all(files.map(getObjectType))
+//            Promise.all(files.map(getObjectType))
+//                    .then(res => {
+//                        //console.log(res);                        
+//                        //console.log(classes);
+//                        classes = JSON.stringify(classes);
+//                        responce.send(classes);
+//                    })                    
+//                    .catch(rej => {
+//                        console.log('rej = ',rej);
+//                    });   
+//            //запись 1
+//            let promises = []
+//            files.forEach(name => promises.push(getObjectType(name)));
+//           
+//            //запись 2
+//            let promises = files.map(name => getObjectType(name));
+            
+//            Promise.all(promises)
+            
+            Promise.all(files.map(name => getObjectType(name, dir, classes)))
                     .then(res => {
-                        //console.log(res);                        
-                        //console.log(classes);
                         classes = JSON.stringify(classes);
                         responce.send(classes);
                     })                    
                     .catch(rej => {
                         console.log('rej = ',rej);
-                    });            
+                    });  
         }
     });
+});
+
+
+//маршрутизация в каталоге classes
+
+
+app.get('/classes/:id', function (req, res, next) {
+  console.log('маршрутизация в каталоге classes');
+  next();
 });
 
 //подклюсение /public как каталога по умолчанию
 app.use('/', express.static(__dirname + "/public"));
 
-app.use(function(err, req, res) {
-    res.send('Ошибка!' + err.emssage);
-    
-});
+//app.use(function(err, req, res) {
+//    res.send('Ошибка!' + err.emssage);    
+//});
 
 
 app.listen(3000, function(){
