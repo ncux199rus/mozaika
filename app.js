@@ -20,6 +20,7 @@ const router = express.Router();
 //parser for data login-password
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 
+
 //
 app.post("/login", urlencodedParser, function(req, res){
     if(!req.body) return res.sendStatus(400);
@@ -87,8 +88,8 @@ app.post('/', jsonParser, function(req, res, next){
 
 
 
-    function getObjectType(name, dir, classes){
-    var dir = './public/classes/';    
+    function getObjectType(name, dir, classes, file){
+    //var dir = './public/classes/';    
         return new Promise((res, rej) =>{
 
             var path = dir + name;
@@ -107,7 +108,10 @@ app.post('/', jsonParser, function(req, res, next){
                     //console.log(path, '- directory;', 'name - ', name);
                     classes.push(name);                    
                     res('directory');
-                }                
+                }
+                
+                
+                res(stats.isFile ? 'file' : 'directory');
             });            
         });
     };
@@ -149,8 +153,9 @@ app.get("/classes", function(request, responce){
             
 //            Promise.all(promises)
             
-            Promise.all(files.map(name => getObjectType(name, dir, classes)))
+            Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
                     .then(res => {
+                        console.log("file = ", file);
                         classes = JSON.stringify(classes);
                         responce.send(classes);
                     })                    
@@ -163,19 +168,48 @@ app.get("/classes", function(request, responce){
 
 
 //маршрутизация в каталоге classes
+app.get('/classes/:id', function (req, response, next) {
 
-
-app.get('/classes/:id', function (req, res, next) {
-  console.log('маршрутизация в каталоге classes');
-  next();
+    console.log('маршрутизация в каталоге classes id = ', req.params.id);
+    var classes = [];
+    var file = [];
+    var dir = './public/classes/' + req.params.id + '/';
+    fs.readdir(dir, function(err, files){
+        if (err)    
+            return next(err);
+        
+        
+        if (files){
+            Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
+                .then(res => {
+                    //file = JSON.stringify(file);
+                    console.log(file);
+                    response.send(file);
+                })
+                .catch(next);
+            return;        
+        }
+        
+        if (isD)
+            response.send([]);
+        
+        return next(new Error('Unknown type'));
+    });
+        
+    
+    
 });
+
+
 
 //подклюсение /public как каталога по умолчанию
 app.use('/', express.static(__dirname + "/public"));
 
-//app.use(function(err, req, res) {
-//    res.send('Ошибка!' + err.emssage);    
-//});
+app.use(function (err, req, res, next) {
+    console.log(err);
+    res.status(500).send('Ошибка!' + err.message);
+    
+});
 
 
 app.listen(3000, function(){

@@ -89,13 +89,14 @@ function getListClasses(){
                 let newDataDesc = document.createElement('td');
                 let newDataChange = document.createElement('td');
                 newDataName.innerHTML = a[i];
-                newRow.addEventListener("click", getObjectClasses);
+                newRow.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
+                
                 console.log("newDataName.value = ", newDataName.innerHTML);
                 newRow.appendChild(newDataName);
                 newRow.appendChild(newDataDesc);
                 newRow.appendChild(newDataChange);
                 tableClasses.appendChild(newRow);
-                console.log(a[i]);
+                //console.log(a[i]);
             });
                
         };
