@@ -176,8 +176,7 @@ app.get('/classes/:id', function (req, response, next) {
     var dir = './public/classes/' + req.params.id + '/';
     fs.readdir(dir, function(err, files){
         if (err)    
-            return next(err);
-        
+            return next(err); 
         
         if (files){
             Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
