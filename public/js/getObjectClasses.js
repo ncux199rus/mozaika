@@ -16,7 +16,7 @@ function getObjectClasses(metaName){
 //    console.log('getObjectClasses function');
 //    
     changePage('main', 'card');
-    sendJSON();
+    //sendJSON();
     
     console.log("testSetListClasses");
     catalogName = '/classes/' + metaName;    
@@ -75,15 +75,13 @@ function getObjectClasses(metaName){
         //var prom = Promise(function(res, rej){
         var path = catalogName + '/' + item;
         
-        fetch(path)
+        return fetch(path)
             //получение содержимого файла
             .then(function(resolve){
                 var text = resolve.text();
                 console.log('res1', text); 
                 return text;
             });
-            
-        //});
     };       
             
     itemPropertyCard.forEach((item) => {
