@@ -71,7 +71,7 @@ var postJSON = function(){
 //получение списка типов метаданных
 //добавление списка объектов метаданных на главную страницу
 function getListClasses(){
-    console.log("getListClasses");
+    //console.log("getListClasses");
     
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/classes', true);
@@ -91,7 +91,7 @@ function getListClasses(){
                 newDataName.innerHTML = a[i];
                 newRow.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
                 
-                console.log("newDataName.value = ", newDataName.innerHTML);
+                //console.log("newDataName.value = ", newDataName.innerHTML);
                 newRow.appendChild(newDataName);
                 newRow.appendChild(newDataDesc);
                 newRow.appendChild(newDataChange);

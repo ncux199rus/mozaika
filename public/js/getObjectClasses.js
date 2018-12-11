@@ -39,29 +39,52 @@ function getObjectClasses(metaName){
         return itemPropertyCard;
     }; 
     */
+   //получение списка файлов по пути catalogName
     fetch(catalogName)
-            .then(res => res.json())
-            .then(listPropertyCard => {                
-                console.log("listPropertyCard", listPropertyCard);
-                Promise.all(listPropertyCard.map(function(item){
-                    getBodyDocument(item);
-                }))
-                        .then(res => console.log('res', res));
-            })     
-                    .catch(alert);
+        .then(function(resolve){
+            return resolve.json();            
+            })
             
+        .then(function(listPropertyCard){                
+            Promise.all( listPropertyCard.map(getBodyDocument) )
+                .then(function(result){
+                    console.log("Promise all", result);
+                    //создание объекта на странице
+                    listPropertyCard.forEach(function(item, i){
+                        let newLabel = document.createElement("label");
+                        let newTextArea = document.createElement("textarea");
+                        
+                        newTextArea.setAttribute("id", "textArea" + item);
+                        newTextArea.innerHTML = result[i];
+                        newTextArea.setAttribute("rows", "3");
+                        newTextArea.setAttribute("cols", "80");
+                        
+                        newLabel.setAttribute("for", "textArea" + item);
+                        newLabel.innerHTML = item;
+                        
+                        cardId.appendChild(newLabel);
+                        cardId.appendChild(newTextArea);
+                    });
+                    
+            });
+        })                    
+        .catch(alert);
+    
+    //получение содержимого документа 
     function getBodyDocument(item){
         //var prom = Promise(function(res, rej){
         var path = catalogName + '/' + item;
+        
         fetch(path)
-                .then(res => {
-                    res.text();
-                    console.log('res1', res);                
-                })
-                .then(text => (console.log('text', text)));
+            //получение содержимого файла
+            .then(function(resolve){
+                var text = resolve.text();
+                console.log('res1', text); 
+                return text;
+            });
+            
         //});
-    };
-       
+    };       
             
     itemPropertyCard.forEach((item) => {
         //xhr.open('GET', catalogName + '/' + item, true);
@@ -69,7 +92,6 @@ function getObjectClasses(metaName){
         console.log('catalogName + '/' + item)', catalogName + '/' + item);
     });
 };
-
 
 function testSetListClasses(){
     //console.log("gtestSetListClasses");    
