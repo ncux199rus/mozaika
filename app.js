@@ -155,7 +155,7 @@ app.get("/classes", function(request, responce){
             
             Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
                     .then(res => {
-                        console.log("file = ", file);
+                        //console.log("file = ", file);
                         classes = JSON.stringify(classes);
                         responce.send(classes);
                     })                    
