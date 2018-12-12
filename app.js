@@ -3,7 +3,7 @@ const http = require("http");
 const fs = require("fs");
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
+//const bodyParser = require("body-parser");
 //const router = express.Router();
 // создаем парсер для данных в формате json
 const jsonParser = express.json();
@@ -18,11 +18,11 @@ const router = express.Router();
 //
 
 //parser for data login-password
-const urlencodedParser = bodyParser.urlencoded({extended: false});
-
+//const urlencodedParser = bodyParser.urlencoded({extended: false});
+//app.use(bodyParser.urlencoded({ extended: false }));
 
 //
-app.post("/login", urlencodedParser, function(req, res){
+app.post("/login", function(req, res, next){
     if(!req.body) return res.sendStatus(400);
     console.log("req.body login = " ,req.body);
     fs.appendFile("log.txt", '\n'+`${req.body.userLogin} - ${req.body.userPassword}`, function(error){
@@ -35,20 +35,22 @@ app.post("/login", urlencodedParser, function(req, res){
 });
 
 //запись метаданных в каталог /classes
-app.post('/', jsonParser, function(req, res, next){
-    
-    console.log("запись метаданных в каталог /classes");
-    if(!req.body) return res.sendStatus(400);
+app.post('/', jsonParser , function(req, res, next){
     console.log("req.body = " ,req.body);
+    console.log("запись метаданных в каталог /classes");
+    if(!req.body || !Object.keys(req.body).length) 
+        return next(new Error('Empty body'));
+    
+    
     var jsonCard = req.body;
     var keyCard = [];
-    for (var key in jsonCard){
-        keyCard.push(key);
-        //keyCard.shift(); //удаляем первый элемент т.к. он каталог
+    //for (var key in jsonCard){
+    //    keyCard.push(key);
+        ////keyCard.shift(); //удаляем первый элемент т.к. он каталог
         
-    };
-    console.log(jsonCard);
-    console.log(keyCard);
+    //};
+    console.log("jsonCard", jsonCard);
+    console.log("keyCard", keyCard);
     
     var fileListCard = ['/description.txt', '/meta.json', '/index.html', '/main.css', '/icon.ico'];
     var home = '/public/classes/';
@@ -205,7 +207,7 @@ app.get('/classes/:id', function (req, response, next) {
 app.use('/', express.static(__dirname + "/public"));
 
 app.use(function (err, req, res, next) {
-    console.log(err);
+    console.error(req.url, ' ', err);
     res.status(500).send('Ошибка!' + err.message);
     
 });

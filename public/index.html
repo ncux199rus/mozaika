@@ -12,6 +12,8 @@ and open the template in the editor.
         <link rel="stylesheet" href="main.css">
     </head>
     <body onload="getListClasses()">
+        <script type="text/javascript" src="js/getObjectClasses.js"></script>
+        <script type="text/javascript" src="script.js"></script>
         <main id="main" class="main">
             <h1>public</h1>
             <table id="tableClasses">
@@ -29,7 +31,7 @@ and open the template in the editor.
         </main>
 
         <section id="card" class="card">
-            <form class="postCard" action="index.html" method="post" name="postCard" id="cardId">
+            <form class="classCard" action="index.html" method="post" name="nameCard" id="cardId">
                 <!--
                 <label for="nameClass">Имя класса</label>
                 <input id="nameClass" type="text" name="nameClass" value="Имя класса">
@@ -54,11 +56,11 @@ and open the template in the editor.
             <br>
             <input type="submit" id="getCard" name="getCard" value="Получить" onclick="sendJSON()">
             <br>
-            <input type="submit" id="submitCard" name="save" value="Сохранить" onclick="postJSON()">
+            <input type="submit" id="submitCard" name="save" value="Сохранить">
+            
             <br>
-            <button type="button" name="cancel" onclick="changePage('card', 'main')">Отмена</button>
+            <button type="button" id="cancelCard" name="cancel" >Отмена</button>
         </section>
-        <script type="text/javascript" src="js/getObjectClasses.js"></script>
-        <script type="text/javascript" src="script.js"></script>
+        
     </body>
 </html>

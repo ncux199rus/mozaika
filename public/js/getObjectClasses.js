@@ -51,19 +51,30 @@ function getObjectClasses(metaName){
                     console.log("Promise all", result);
                     //создание объекта на странице
                     listPropertyCard.forEach(function(item, i){
-                        let newLabel = document.createElement("label");
-                        let newTextArea = document.createElement("textarea");
+                        //form.removeChild(textarea); //очистить форму при перезаписи
+                        
+                         newLabel = document.createElement("label");
+                         newTextArea = document.createElement("textarea");
                         
                         newTextArea.setAttribute("id", "textArea" + item);
                         newTextArea.innerHTML = result[i];
                         newTextArea.setAttribute("rows", "3");
                         newTextArea.setAttribute("cols", "80");
+                        newTextArea.setAttribute("class", "classTextarea");
+                        newTextArea.setAttribute("name", "textarea-" + item);
                         
                         newLabel.setAttribute("for", "textArea" + item);
                         newLabel.innerHTML = item;
+                        newLabel.setAttribute("class", "classLabel");
+                        //newLabel.setAttribute("name", "label-" + item);
                         
                         cardId.appendChild(newLabel);
                         cardId.appendChild(newTextArea);
+                        
+                        //добавление существующим элементам динамических свойств
+                        document.getElementById('submitCard').setAttribute('ctl', metaName);
+                        document.getElementById('submitCard').addEventListener('click', postJSON);
+                        //document.getElementById('cancelCard').addEventListener('click', changePage("card", "main"));
                     });
                     
             });
@@ -79,7 +90,7 @@ function getObjectClasses(metaName){
             //получение содержимого файла
             .then(function(resolve){
                 var text = resolve.text();
-                console.log('res1', text); 
+                //console.log('res1', text); 
                 return text;
             });
     };       

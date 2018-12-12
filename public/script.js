@@ -1,4 +1,10 @@
-//changePage main-card
+//для загрузки скриптов паралельно основному документу
+//но исполнение после загрузки всей страницы        
+window.addEventListener("load", function(event) {
+  
+});
+
+///changePage main-card
 var changePage = function(beforePage, afterPage){
     //console.log("beforePage = " ,beforePage);
     var before = document.getElementById(beforePage);
@@ -15,7 +21,9 @@ var changePage = function(beforePage, afterPage){
     //console.log("after     = " ,after);
 };
 
-//json to server from card
+
+////json to server from card
+//не используется
 var sendJSON = function (){
     //console.log("sendJSON");
     
@@ -46,17 +54,36 @@ var sendJSON = function (){
 };
 
 // запись изменений в каталог метаданных
-var postJSON = function(){
+var postJSON = function(event){
+    
     console.log("postJSON");
     var objectFormData = {};
 
-    var formData = new FormData(document.forms.postCard);
-    formData.append("icon", "icon.ico");//добавление пути иконки
-    formData.forEach(function(value, key){
+    //var form = new FormData(document.forms.classCard);
+    var form = new FormData(document.getElementById('cardId')); 
+    // querySelector('form[name="nameCard"]')
+    console.log("form", form);
+    form.append("icon", "icon.ico");//добавление пути иконки
+    
+    form.forEach(function(value, key){
         objectFormData[key] = value;
     });
     var formJson = JSON.stringify(objectFormData);
-
+    console.log("formJson", formJson);
+    
+    fetch("/", {
+        headers: { "Content-Type" : "application/json" },
+        method: "POST",
+        body: formJson
+    });
+    
+    /*
+     * JSON.stringify(objectFormData)
+    form.forEach(function(value, key){
+        objectFormData[key] = value;
+    });
+    var formJson = JSON.stringify(objectFormData);
+    
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/", true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -66,6 +93,7 @@ var postJSON = function(){
         }
     };
     xhr.send(formJson);
+    */
 };
 
 //получение списка типов метаданных
@@ -100,5 +128,7 @@ function getListClasses(){
             });
                
         };
-    };    
+    };
+    
+    fetch('/classes')
 };

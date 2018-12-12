@@ -1,3 +1,6 @@
+body{
+    background-color: #f2f2f2;
+}
 .card{
     display: none;
 }
@@ -23,7 +26,13 @@ td{
     background-color: #ffe6ff;
     color: #cc0099;
 }
-
+.classTextarea{
+    margin-bottom: 50px;
+    color: #ff66ff;
+}
+.classLabel{
+    color: #66ff66;
+}
 
 .buttonAdd{
     background-color: #FFE4E1;
