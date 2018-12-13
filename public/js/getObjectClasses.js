@@ -84,6 +84,7 @@ function getObjectClasses(metaName){
     //получение содержимого документа 
     function getBodyDocument(item){
         //var prom = Promise(function(res, rej){
+        
         var path = catalogName + '/' + item;
         
         return fetch(path)

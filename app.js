@@ -33,14 +33,42 @@ app.post("/login", function(req, res, next){
     });
     res.send(`${req.body.userLogin} - ${req.body.userPassword}`);
 });
-
 //запись метаданных в каталог /classes
+app.post('/classes/:id', jsonParser, function(req, res, next){
+    console.log("запись метаданных в каталог /classes");
+    
+    var metaName = 'public/classes/' + req.params.id;
+    var body = req.body;
+    console.log('metaName = ', metaName,"\nreq.body classes = " ,req.body);
+    if (!fs.existsSync(metaName)){
+        fs.mkdirSync(metaName);
+    }
+    
+    for (var key in body){
+        let fileName = metaName + '/' + key;
+        console.log('fileName', fileName)  ;
+        writeFileClasses(fileName, body[key]);
+    }
+});
+function writeFileClasses(fileName, fileBody){      
+    return new Promise(function(resolve, reject){
+        if (!fileName){
+            reject(new Error('Not fileName'));
+        }else if (!fileBody){
+            reject(new Error('Not fileBody'));
+        }else{            
+        fs.writeFileSync(fileName, fileBody);        
+        resolve('fileName create');
+        }
+    });
+};
+//запись метаданных в каталог не используется
 app.post('/', jsonParser , function(req, res, next){
     console.log("req.body = " ,req.body);
-    console.log("запись метаданных в каталог /classes");
-    if(!req.body || !Object.keys(req.body).length) 
-        return next(new Error('Empty body'));
+    console.log("запись метаданных в каталог старое");
     
+    if(!req.body || !Object.keys(req.body).length) 
+        return next(new Error('Empty body'));    
     
     var jsonCard = req.body;
     var keyCard = [];

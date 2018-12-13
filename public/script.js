@@ -58,7 +58,8 @@ var postJSON = function(event){
     
     console.log("postJSON");
     var objectFormData = {};
-
+    var metaName = document.getElementById('submitCard').getAttribute('ctl');
+    
     //var form = new FormData(document.forms.classCard);
     var form = new FormData(document.getElementById('cardId')); 
     // querySelector('form[name="nameCard"]')
@@ -66,12 +67,21 @@ var postJSON = function(event){
     form.append("icon", "icon.ico");//добавление пути иконки
     
     form.forEach(function(value, key){
-        objectFormData[key] = value;
+        if (key.substr(0, 9) == 'textarea-'){
+           var keyMod = key.replace("textarea-", "");
+            console.log('keyMod = ', keyMod);
+        }else{
+            keyMod = key;
+        }
+        
+        objectFormData[keyMod] = value;
     });
+    console.log('objectFormData = ', objectFormData);
     var formJson = JSON.stringify(objectFormData);
     console.log("formJson", formJson);
     
-    fetch("/", {
+    
+    fetch("/classes/" + metaName + '/', {
         headers: { "Content-Type" : "application/json" },
         method: "POST",
         body: formJson
