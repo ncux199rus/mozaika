@@ -12,6 +12,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="main.css">
     </head>
     <body onload="getListClasses()">
+        <script type="text/javascript" src="js/addNewFile.js"></script>            
         <script type="text/javascript" src="js/getObjectClasses.js"></script>
         <script type="text/javascript" src="script.js"></script>
         <main id="main" class="main">
@@ -54,7 +55,7 @@ and open the template in the editor.
                 -->
             </form>
             <br>
-            <input type="submit" id="getCard" name="getCard" value="Получить" onclick="sendJSON()">
+            <input type="submit" id="getCard" name="getCard" value="Добавить поле" onclick="createNewFile()">
             <br>
             <input type="submit" id="submitCard" name="save" value="Сохранить">
             

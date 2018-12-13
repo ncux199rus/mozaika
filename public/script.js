@@ -64,7 +64,7 @@ var postJSON = function(event){
     var form = new FormData(document.getElementById('cardId')); 
     // querySelector('form[name="nameCard"]')
     console.log("form", form);
-    form.append("icon", "icon.ico");//добавление пути иконки
+    //form.append("icon", "icon.ico");//добавление пути иконки
     
     form.forEach(function(value, key){
         if (key.substr(0, 9) == 'textarea-'){

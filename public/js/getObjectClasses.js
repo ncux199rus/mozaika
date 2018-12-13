@@ -52,29 +52,31 @@ function getObjectClasses(metaName){
                     //создание объекта на странице
                     listPropertyCard.forEach(function(item, i){
                         //form.removeChild(textarea); //очистить форму при перезаписи
+                        createElement(item);
                         
-                         newLabel = document.createElement("label");
-                         newTextArea = document.createElement("textarea");
-                        
-                        newTextArea.setAttribute("id", "textArea" + item);
-                        newTextArea.innerHTML = result[i];
-                        newTextArea.setAttribute("rows", "3");
-                        newTextArea.setAttribute("cols", "80");
-                        newTextArea.setAttribute("class", "classTextarea");
-                        newTextArea.setAttribute("name", "textarea-" + item);
-                        
-                        newLabel.setAttribute("for", "textArea" + item);
-                        newLabel.innerHTML = item;
-                        newLabel.setAttribute("class", "classLabel");
+//                        newLabel = document.createElement("label");
+//                        newTextArea = document.createElement("textarea");
+//                        
+//                        newTextArea.setAttribute("id", "textArea" + item);
+                        //newTextArea.innerHTML = result[i];
+                        document.getElementById("textArea" + item).innerHTML = result[i];
+//                        newTextArea.setAttribute("rows", "3");
+//                        newTextArea.setAttribute("cols", "80");
+//                        newTextArea.setAttribute("class", "classTextarea");
+//                        newTextArea.setAttribute("name", "textarea-" + item);
+//                        
+//                        newLabel.setAttribute("for", "textArea" + item);
+//                        newLabel.innerHTML = item;
+//                        newLabel.setAttribute("class", "classLabel");
                         //newLabel.setAttribute("name", "label-" + item);
                         
-                        cardId.appendChild(newLabel);
-                        cardId.appendChild(newTextArea);
+//                        cardId.appendChild(newLabel);
+//                        cardId.appendChild(newTextArea);
                         
                         //добавление существующим элементам динамических свойств
                         document.getElementById('submitCard').setAttribute('ctl', metaName);
                         document.getElementById('submitCard').addEventListener('click', postJSON);
-                        //document.getElementById('cancelCard').addEventListener('click', changePage("card", "main"));
+                        document.getElementById('cancelCard').addEventListener('click', function(){document.getElementById('cardId').innerHTML = ''; changePage('card', 'main');});                                             
                     });
                     
             });
@@ -103,6 +105,22 @@ function getObjectClasses(metaName){
     });
 };
 
-function testSetListClasses(){
-    //console.log("gtestSetListClasses");    
+function createElement(item){
+    var newLabel = document.createElement("label");
+    var newTextArea = document.createElement("textarea");
+
+    newTextArea.setAttribute("id", "textArea" + item);
+    //newTextArea.innerHTML = result[i];
+    newTextArea.setAttribute("rows", "3");
+    newTextArea.setAttribute("cols", "80");
+    newTextArea.setAttribute("class", "classTextarea");
+    newTextArea.setAttribute("name", "textarea-" + item);
+
+    newLabel.setAttribute("for", "textArea" + item);
+    newLabel.innerHTML = item;
+    newLabel.setAttribute("class", "classLabel");
+    newLabel.setAttribute("name", "label-" + item);
+
+    cardId.appendChild(newLabel);
+    cardId.appendChild(newTextArea);
 }
