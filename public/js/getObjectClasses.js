@@ -116,7 +116,7 @@ function createElement(item){
 //1 - создание карточки
 function sreateHeadCard(item, num){    
     var newInput = document.createElement("input");
-    var inputId = "inputHeadId-" + item;
+    var inputId = "inputHeadId";
     
     if (+num === 0){
         newInput.setAttribute("disabled", "disabled");
@@ -141,13 +141,17 @@ function createNavCard(metaName){
 
 function addPic(){
     var newPic = document.createElement("img");
-    var newButton = document.createElement("button");
+    var newInput = document.createElement("Input");
     
     newPic.setAttribute("src", "classes/nameClass3/download.jpeg");
     newPic.setAttribute("alt", "иконка карты");
     
-    newButton.innerHTML = "Изменить картинку";
+    newInput.setAttribute("value", "Изменить картинку");
+    newInput.setAttribute("type", "file");
+    newInput.setAttribute("id", "changePicInput");
+    newInput.setAttribute("name", "file");
+    newInput.setAttribute("accept", "image/*");
     
-    cardId.appendChild(newPic);
-    cardId.appendChild(newButton);
+    card.appendChild(newPic);
+    card.appendChild(newInput);
 }

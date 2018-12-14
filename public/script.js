@@ -58,8 +58,8 @@ var postJSON = function(event){
     
     console.log("postJSON");
     var objectFormData = {};
-    var metaName = document.getElementById('submitCard').getAttribute('ctl');
-    
+    //var metaName = document.getElementById('submitCard').getAttribute('ctl');
+    var metaName = document.getElementById('inputHeadId').value;
     //var form = new FormData(document.forms.classCard);
     var form = new FormData(document.getElementById('cardId')); 
     // querySelector('form[name="nameCard"]')
@@ -81,11 +81,12 @@ var postJSON = function(event){
     console.log("formJson", formJson);
     
     
+    
     fetch("/classes/" + metaName + '/', {
         headers: { "Content-Type" : "application/json" },
         method: "POST",
         body: formJson
-    });
+    });   
     
     /*
      * JSON.stringify(objectFormData)
