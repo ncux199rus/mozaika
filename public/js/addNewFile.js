@@ -15,8 +15,14 @@ function createNewCard(){
     //if (!fileName) {
     //    return new Error("Не корректное имя карты.");        
     //}
-    sreateHeadCard('fileName', 1); 
+    var headInputId = sreateHeadCard('fileName', 1); 
     //createNavCard(metaName);
+    createElement("meta.json");
+    createNavCard(metaName);
+    addPic();
+    
+    headInputId.onblur = function(){
+        var valName = document.getElementById(headInputId).value;
+        document.getElementById('submitCard').setAttribute('ctl', valName);
+    };
 }
-
-addPic();

@@ -116,15 +116,21 @@ function createElement(item){
 //1 - создание карточки
 function sreateHeadCard(item, num){    
     var newInput = document.createElement("input");
+    var inputId = "inputHeadId-" + item;
     
     if (+num === 0){
         newInput.setAttribute("disabled", "disabled");
         newInput.setAttribute("value", item);
-    }else if (+num === 1){
-        newInput.setAttribute("placeHolder", item);
+        newInput.setAttribute("id", inputId);
+        cardId.appendChild(newInput); 
+        return inputId;
     }
-    
-    cardId.appendChild(newInput);    
+    else if (+num === 1){
+        newInput.setAttribute("placeHolder", item);        
+        newInput.setAttribute("id", inputId);
+        cardId.appendChild(newInput); 
+        return inputId;
+    }  
 }
 
 function createNavCard(metaName){
@@ -135,6 +141,13 @@ function createNavCard(metaName){
 
 function addPic(){
     var newPic = document.createElement("img");
+    var newButton = document.createElement("button");
+    
+    newPic.setAttribute("src", "classes/nameClass3/download.jpeg");
+    newPic.setAttribute("alt", "иконка карты");
+    
+    newButton.innerHTML = "Изменить картинку";
     
     cardId.appendChild(newPic);
+    cardId.appendChild(newButton);
 }
