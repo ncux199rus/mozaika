@@ -63,7 +63,7 @@ function getObjectClasses(metaName){
 //                    document.getElementById('submitCard').setAttribute('ctl', metaName);
 //                    document.getElementById('submitCard').addEventListener('click', postJSON);
 //                    document.getElementById('cancelCard').addEventListener('click', function(){document.getElementById('cardId').innerHTML = ''; changePage('card', 'main');});                    
-                    
+                    addPic();
             });
         })                    
         .catch(alert);
@@ -142,16 +142,21 @@ function createNavCard(metaName){
 function addPic(){
     var newPic = document.createElement("img");
     var newInput = document.createElement("Input");
+    var newSubmit = document.createElement("input");
     
     newPic.setAttribute("src", "classes/nameClass3/download.jpeg");
     newPic.setAttribute("alt", "иконка карты");
     
-    newInput.setAttribute("value", "Изменить картинку");
+    newInput.setAttribute("value", "Выбрать картинку");
     newInput.setAttribute("type", "file");
     newInput.setAttribute("id", "changePicInput");
     newInput.setAttribute("name", "file");
     newInput.setAttribute("accept", "image/*");
     
+    newSubmit.setAttribute("value", "Сохранить картинку");
+    newSubmit.setAttribute("type", "submit");
+    
     card.appendChild(newPic);
     card.appendChild(newInput);
+    card.appendChild(newSubmit);
 }
