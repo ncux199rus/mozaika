@@ -49,8 +49,7 @@ var sendJSON = function (){
             //document.getElementById("nameClass").value = a["cardMeta"];
             //meta.value += req.responseText;
         }
-    };
-    
+    };    
 };
 
 // запись изменений в каталог метаданных

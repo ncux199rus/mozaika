@@ -74,8 +74,8 @@ const upload = multer({ storage: storage });
 //сохранение изменений иконки
 app.post('/classes/:id/:ico', upload.any(), function(req, res){
     console.log("сохранение изменений иконки req = ", req.files);
-    var id = app.params.id;
-    var ico = app.params.ico;
+    //var id = app.params.id;
+    //var ico = app.params.ico;
     
     res.send(req.rawHeaders);
 });
@@ -129,26 +129,10 @@ app.post('/', jsonParser , function(req, res, next){
             console.log(fileListCard[i], objName);
             fs.writeFileSync(dir + fileListCard[i], objName);
         };
-    };
-    
-    
-    
-    //    if (next){
-//        console.log("error");
-//        return next(err);
-//    };
-    
-    
-//    fs.writeFileSync(dir + '/description.txt', jsonCard.descClass);
-//    fs.writeFileSync(dir + '/meta.json', jsonCard.cardMeta);
-//    fs.writeFileSync(dir + '/index.html', jsonCard.cardHtml);
-//    fs.writeFileSync(dir + '/main.css', jsonCard.cardCss);
-    
+    };    
 });
 
-
-
-    function getObjectType(name, dir, classes, file){
+function getObjectType(name, dir, classes, file){
     //var dir = './public/classes/';    
         return new Promise((res, rej) =>{
 
@@ -169,12 +153,10 @@ app.post('/', jsonParser , function(req, res, next){
                     classes.push(name);                    
                     res('directory');
                 }
-                
-                
                 res(stats.isFile ? 'file' : 'directory');
             });            
         });
-    };
+};
 
 //получение списка мета объектов
 app.get("/classes", function(request, responce){
@@ -189,29 +171,6 @@ app.get("/classes", function(request, responce){
             return(1);
         };
         if (files){
-            //console.log("fs.readdir files = ", files);            
-            
-            /*for (var i = 0; i < files.length; i++)
-                promises.push(getObjectType(files[i]));
-            */
-//            Promise.all(files.map(getObjectType))
-//                    .then(res => {
-//                        //console.log(res);                        
-//                        //console.log(classes);
-//                        classes = JSON.stringify(classes);
-//                        responce.send(classes);
-//                    })                    
-//                    .catch(rej => {
-//                        console.log('rej = ',rej);
-//                    });   
-//            //запись 1
-//            let promises = []
-//            files.forEach(name => promises.push(getObjectType(name)));
-//           
-//            //запись 2
-//            let promises = files.map(name => getObjectType(name));
-            
-//            Promise.all(promises)
             
             Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
                     .then(res => {
@@ -250,13 +209,9 @@ app.get('/classes/:id', function (req, response, next) {
         }
         
         if (isD)
-            response.send([]);
-        
+            response.send([]);        
         return next(new Error('Unknown type'));
     });
-        
-    
-    
 });
 
 

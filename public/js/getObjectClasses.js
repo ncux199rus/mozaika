@@ -1,44 +1,11 @@
 //получение данных объекта
 function getObjectClasses(metaName){
-    //test promise
-//    let promise = new Promise(function(res, rej){        
-//        try {
-//            json = JSON.parse(text);
-//            res(json)
-//            //changePage('main', 'card');
-//        } catch(err) {
-//            rej(err);
-//        }   
-//    });
-//    promise.then(res => {//     
-//    return sendJSON();//    
-//    }).catch();
-//    console.log('getObjectClasses function');
-//    
-    changePage('main', 'card');
-    //sendJSON();
+    changePage('main', 'card');    
     
     console.log("testSetListClasses");
     catalogName = '/classes/' + metaName;    
     var itemPropertyCard = [];
-    /*var xhr = new XMLHttpRequest();
-    xhr.open('GET', catalogName, true);
-    xhr.send();
-    xhr.onreadystatechange = function(){
-        if (xhr.readyState !==4) return;
-        
-        if (xhr.status !=200){
-            alert( req.status + ": " + req.statusText);
-        }else{
-            var listPropertyCard = JSON.parse(xhr.responseText);
-            listPropertyCard.forEach((item) => {
-                itemPropertyCard.push(item);                
-            });                     
-        }        
-        console.log("itemPropertyCard = ", itemPropertyCard.length);
-        return itemPropertyCard;
-    }; 
-    */
+    
    //получение списка файлов по пути catalogName
     fetch(catalogName)
         .then(function(resolve){
@@ -60,9 +27,6 @@ function getObjectClasses(metaName){
                         //добавление существующим элементам динамических свойств
                         });
                     createNavCard(metaName);
-//                    document.getElementById('submitCard').setAttribute('ctl', metaName);
-//                    document.getElementById('submitCard').addEventListener('click', postJSON);
-//                    document.getElementById('cancelCard').addEventListener('click', function(){document.getElementById('cardId').innerHTML = ''; changePage('card', 'main');});                    
                     addPic();
             });
         })                    
@@ -136,7 +100,13 @@ function sreateHeadCard(item, num){
 function createNavCard(metaName){
     document.getElementById('submitCard').setAttribute('ctl', metaName);
     document.getElementById('submitCard').addEventListener('click', postJSON);
-    document.getElementById('cancelCard').addEventListener('click', function(){document.getElementById('cardId').innerHTML = ''; changePage('card', 'main');});                    
+    document.getElementById('cancelCard').addEventListener('click', function(){
+            document.getElementById('cardId').innerHTML = ''; 
+            var parent = document.getElementById('card');
+            var child = document.getElementById('picIcoId');
+            parent.removeChild(child);
+            changePage('card', 'main');
+        });                    
 }
 
 //создание меню управления иконкой
@@ -145,12 +115,12 @@ function addPic(){
     var newInput = document.createElement("input");
     var newSubmit = document.createElement("input");
     var newForm = document.createElement("form");
-    var newButton = document.createElement("button")
+    var newButton = document.createElement("button");
     
-    newForm.setAttribute("method", "POST");
+    newForm.setAttribute("id", "picIcoId");
+    //newForm.setAttribute("method", "POST");
     newForm.setAttribute("enctype", "multypart/form-data");
-    
-    
+          
     newPic.setAttribute("src", "hypnoFrog.png");
     newPic.setAttribute("alt", "иконка");
     newPic.setAttribute("id", "imgId");
@@ -165,28 +135,36 @@ function addPic(){
     newInput.setAttribute("onchange", "onImageChange()");
     
     newButton.innerHTML = "save Ico";
-    //newButton.addEventListener("click", submitIco);
+    newButton.addEventListener("click", submitIco);
     
     newSubmit.setAttribute("value", "Сохранить картинку");
     newSubmit.setAttribute("type", "submit");
     
-    //newForm.appendChild(newInput);    
+    newForm.appendChild(newInput);    
     //newForm.appendChild(newSubmit);
+    newForm.appendChild(newPic);        
+    newForm.appendChild(newButton);
     
-    card.appendChild(newPic);    
-    //card.appendChild(newForm);
-    card.appendChild(newButton);
-    card.appendChild(newInput);
-    card.appendChild(newSubmit);
+    card.appendChild(newForm);
+    
+    
+    //заполенение иконки, если существует
+    var path = document.getElementById("inputHeadId").value;
+    if (!file)
+    path = '/classes/' + path + '/ico/';
+    
 }
 
-//отправка иеонки на сервер
+//отправка иконки на сервер
 function submitIco(){
+    var path = document.getElementById("inputHeadId").value;
+    path = '/classes/' + path + '/ico/';
+    console.log("path = ", path);
     var file = document.getElementById("changePicInput").files[0];
                 var formData = new FormData();
                 formData.append('picture', file);
 
-                fetch('/ico', {
+                fetch(path, {
                         method: 'POST',
                         body: formData
                     });
