@@ -1,4 +1,4 @@
-
+//получение данных объекта
 function getObjectClasses(metaName){
     //test promise
 //    let promise = new Promise(function(res, rej){        
@@ -90,11 +90,10 @@ function getObjectClasses(metaName){
     });
 };
 
+//создание нового тестового поля
 function createElement(item){
     var newLabel = document.createElement("label");
     var newTextArea = document.createElement("textarea");
-    
-    
     
     newTextArea.setAttribute("id", "textArea" + item);    
     newTextArea.setAttribute("rows", "3");
@@ -133,12 +132,14 @@ function sreateHeadCard(item, num){
     }  
 }
 
+//создание общих элементов управления
 function createNavCard(metaName){
     document.getElementById('submitCard').setAttribute('ctl', metaName);
     document.getElementById('submitCard').addEventListener('click', postJSON);
     document.getElementById('cancelCard').addEventListener('click', function(){document.getElementById('cardId').innerHTML = ''; changePage('card', 'main');});                    
 }
 
+//создание меню управления иконкой
 function addPic(){
     var newPic = document.createElement("img");
     var newInput = document.createElement("input");
