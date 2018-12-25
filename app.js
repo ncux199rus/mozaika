@@ -92,7 +92,8 @@ function writeFileClasses(fileName, fileBody){
         }
     });
 };
-//запись метаданных в каталог не используется
+//запись метаданных в каталог 
+//не используется!!!!!!!!!!!!!!
 app.post('/', jsonParser , function(req, res, next){
     console.log("req.body = " ,req.body);
     console.log("запись метаданных в каталог старое");
@@ -132,6 +133,7 @@ app.post('/', jsonParser , function(req, res, next){
     };    
 });
 
+//получение списка файлов или каталогов
 function getObjectType(name, dir, classes, file){
     //var dir = './public/classes/';    
         return new Promise((res, rej) =>{
@@ -175,6 +177,7 @@ app.get("/classes", function(request, responce){
             Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
                     .then(res => {
                         //console.log("file = ", file);
+                        
                         classes = JSON.stringify(classes);
                         responce.send(classes);
                     })                    

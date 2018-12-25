@@ -17,7 +17,9 @@ function getObjectClasses(metaName){
                 .then(function(result){
                     console.log("Promise all", result);
                     //создание объекта на странице
+                    //создание шапки карточки
                     sreateHeadCard(metaName, 0); 
+                    //создание и наполнеине textarea
                     listPropertyCard.forEach(function(item, i){
                         //form.removeChild(textarea); //очистить форму при перезаписи
                         createElement(item);
@@ -26,7 +28,9 @@ function getObjectClasses(metaName){
 //                       
                         //добавление существующим элементам динамических свойств
                         });
+                    //создание меню навигации по карточке
                     createNavCard(metaName);
+                    //создание иконки
                     addPic();
             });
         })                    
