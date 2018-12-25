@@ -9,6 +9,7 @@ const app = express();
 const jsonParser = express.json();
 const router = express.Router();
 
+const multer = require('multer');
 //app.use('/classes', express.static(__dirname + "/public/classes"));
 
 //app.get('/login', express.static(__dirname + "/public/login"));
@@ -50,6 +51,35 @@ app.post('/classes/:id', jsonParser, function(req, res, next){
         writeFileClasses(fileName, body[key]);
     }
 });
+
+const storage = multer.diskStorage({
+    //fileFilter - not working!!!!!!!!
+    fileFilter: function (req, file, cb) {
+        if (file.mimetype !== 'image/jpeg') {
+            req.fileValidationError = 'goes wrong on the mimetype';
+            return cb(null, false, new Error('goes wrong on the mimetype'));
+        }
+        cb(null, true);
+    },
+    destination: function (req, file, cb) {
+        var metaName = 'public/classes/' + req.params.id + '/' + req.params.ico;
+        cb(null, __dirname + '/' + metaName) //Здесь указывается путь для сохранения файлов
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+const upload = multer({ storage: storage });
+
+//сохранение изменений иконки
+app.post('/classes/:id/:ico', upload.any(), function(req, res){
+    console.log("сохранение изменений иконки req = ", req.files);
+    var id = app.params.id;
+    var ico = app.params.ico;
+    
+    res.send(req.rawHeaders);
+});
+
 function writeFileClasses(fileName, fileBody){      
     return new Promise(function(resolve, reject){
         if (!fileName){
