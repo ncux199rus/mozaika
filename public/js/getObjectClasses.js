@@ -154,8 +154,9 @@ function addPic(){
     
     //заполенение иконки, если существует
     var path = document.getElementById("inputHeadId").value;
-    if (!file)
-    path = '/classes/' + path + '/ico/';
+    //if (!file){
+    //    path = '/classes/' + path + '/ico/';
+    //}
     
 }
 
@@ -166,7 +167,7 @@ function submitIco(){
     console.log("path = ", path);
     var file = document.getElementById("changePicInput").files[0];
                 var formData = new FormData();
-                formData.append('picture', file);
+                formData.append('picture', file, 'icon.png');
 
                 fetch(path, {
                         method: 'POST',
@@ -186,7 +187,7 @@ function onImageChange(){
 
                 reader.onloadend = function(){
                     img.src = reader.result;
-                    console.log('img1.src', img.src);
+                    //console.log('img1.src', img.src);
                 };
 
                 if (file) {

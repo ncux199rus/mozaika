@@ -9,7 +9,11 @@ const app = express();
 const jsonParser = express.json();
 const router = express.Router();
 
+//для сохранения файлов на сервере
 const multer = require('multer');
+
+//для определения расширения файла
+const path = require('path');
 //app.use('/classes', express.static(__dirname + "/public/classes"));
 
 //app.get('/login', express.static(__dirname + "/public/login"));
@@ -62,11 +66,11 @@ const storage = multer.diskStorage({
         cb(null, true);
     },
     destination: function (req, file, cb) {
-        var metaName = 'public/classes/' + req.params.id + '/' + req.params.ico;
+        var metaName = 'public/classes/' + req.params.id; //+ req.params.ico;
         cb(null, __dirname + '/' + metaName) //Здесь указывается путь для сохранения файлов
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, file.originalname);
     }
 });
 const upload = multer({ storage: storage });
@@ -138,20 +142,26 @@ function getObjectType(name, dir, classes, file){
     //var dir = './public/classes/';    
         return new Promise((res, rej) =>{
 
-            var path = dir + name;
-            fs.stat(path, function(err, stats){                    
+            var path1 = dir + name;
+            fs.stat(path1, function(err, stats){                    
                 //console.log(i, files[i]);
                 if (err){
                     console.log("fs.stat error = ", err);
                     rej(err);;
                 };
-                
+                //получение списка файлов 
                 if (stats.isFile()) {
-                    file.push(name);
-                    res('file');
+                    ////определение типа файла
+                    //if (path.extname(name) == ".png"){
+                    //    console.log("name = ", name);
+                    //}else{                        
+                        file.push(name);
+                        res('file');
+                    //}
                 }
+                //получение списка каталогов
                 if (stats.isDirectory()) {
-                    //console.log(path, '- directory;', 'name - ', name);
+                    //console.log(path1, '- directory;', 'name - ', name);
                     classes.push(name);                    
                     res('directory');
                 }
@@ -205,6 +215,18 @@ app.get('/classes/:id', function (req, response, next) {
                 .then(res => {
                     //file = JSON.stringify(file);
                     console.log(file);
+                    //удаление из списка файлов иконки
+                    var icon = [];
+                    file.forEach(function(item, i, arr){
+                        //console.log('item = ', item, 'i = ', i);
+                        if (item == 'icon.png'){
+                            file.splice(i, 1);
+                            icon.push(item);
+                            //console.log('icon = ', icon);
+                            //console.log('file = ', file);
+                            //response.send(file);
+                        }
+                    })
                     response.send(file);
                 })
                 .catch(next);
