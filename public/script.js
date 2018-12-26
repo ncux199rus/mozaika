@@ -66,7 +66,7 @@ var postJSON = function(event){
     //form.append("icon", "icon.ico");//добавление пути иконки
     
     form.forEach(function(value, key){
-        if (key.substr(0, 9) == 'textarea-'){
+        if (key.substr(0, 9) === 'textarea-'){
            var keyMod = key.replace("textarea-", "");
             console.log('keyMod = ', keyMod);
         }else{

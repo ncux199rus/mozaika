@@ -1,3 +1,5 @@
+/* global fetch, card */
+
 //получение данных объекта
 function getObjectClasses(metaName){
     changePage('main', 'card');    
@@ -118,12 +120,13 @@ function addPic(){
     var newPic = document.createElement("img");
     var newInput = document.createElement("input");
     var newSubmit = document.createElement("input");
-    var newForm = document.createElement("form");
+    //var newForm = document.createElement("form");
+    var newSect = document.createElement("section");
     var newButton = document.createElement("button");
     
-    newForm.setAttribute("id", "picIcoId");
+    newSect.setAttribute("id", "picIcoId");
     //newForm.setAttribute("method", "POST");
-    newForm.setAttribute("enctype", "multypart/form-data");
+    //newForm.setAttribute("enctype", "multypart/form-data");
           
     newPic.setAttribute("src", "hypnoFrog.png");
     newPic.setAttribute("alt", "иконка");
@@ -135,7 +138,7 @@ function addPic(){
     newInput.setAttribute("type", "file");
     newInput.setAttribute("id", "changePicInput");
     newInput.setAttribute("name", "fileName");
-    newInput.setAttribute("accept", "image/*");
+    newInput.setAttribute("accept", "image/png");
     newInput.setAttribute("onchange", "onImageChange()");
     
     newButton.innerHTML = "save Ico";
@@ -144,12 +147,12 @@ function addPic(){
     newSubmit.setAttribute("value", "Сохранить картинку");
     newSubmit.setAttribute("type", "submit");
     
-    newForm.appendChild(newInput);    
+    newSect.appendChild(newInput);    
     //newForm.appendChild(newSubmit);
-    newForm.appendChild(newPic);        
-    newForm.appendChild(newButton);
+    newSect.appendChild(newPic);        
+    newSect.appendChild(newButton);
     
-    card.appendChild(newForm);
+    card.appendChild(newSect);
     
     
     //заполенение иконки, если существует
@@ -166,33 +169,33 @@ function submitIco(){
     path = '/classes/' + path + '/ico/';
     console.log("path = ", path);
     var file = document.getElementById("changePicInput").files[0];
-                var formData = new FormData();
-                formData.append('picture', file, 'icon.png');
+    var formData = new FormData();
+    formData.append('picture', file, 'icon.png');
 
-                fetch(path, {
-                        method: 'POST',
-                        body: formData
-                    });
+    fetch(path, {
+        method: 'POST',
+        body: formData
+    });
 };
 
 //функция отображения иконки
 function onImageChange(){
-                var reader = new FileReader();
-                console.log('reader', reader);
+    var reader = new FileReader();
+    console.log('reader', reader);
 
-                var img = document.getElementById('imgId');
-                console.log('onImageChange img1 = ', img);
-                var file = document.getElementById("changePicInput").files[0];
-                console.log('file = ', file);
+    var img = document.getElementById('imgId');
+    console.log('onImageChange img1 = ', img);
+    var file = document.getElementById("changePicInput").files[0];
+    console.log('file = ', file);
 
-                reader.onloadend = function(){
-                    img.src = reader.result;
-                    //console.log('img1.src', img.src);
-                };
+    reader.onloadend = function(){
+        img.src = reader.result;
+        //console.log('img1.src', img.src);
+    };
 
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    img.src = "";
-                }
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        img.src = "";
+    }
 };

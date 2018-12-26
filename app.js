@@ -1,3 +1,5 @@
+/* global __dirname, Promise, isD */
+
 //server metaData
 const http = require("http");
 const fs = require("fs");
@@ -14,6 +16,9 @@ const multer = require('multer');
 
 //для определения расширения файла
 const path = require('path');
+
+//оппределяет тип передаваемого запроса на сервер
+const typeis = require('type-is');
 //app.use('/classes', express.static(__dirname + "/public/classes"));
 
 //app.get('/login', express.static(__dirname + "/public/login"));
@@ -38,6 +43,8 @@ app.post("/login", function(req, res, next){
     });
     res.send(`${req.body.userLogin} - ${req.body.userPassword}`);
 });
+
+
 //запись метаданных в каталог /classes
 app.post('/classes/:id', jsonParser, function(req, res, next){
     console.log("запись метаданных в каталог /classes");
@@ -56,6 +63,8 @@ app.post('/classes/:id', jsonParser, function(req, res, next){
     }
 });
 
+
+//multer 
 const storage = multer.diskStorage({
     //fileFilter - not working!!!!!!!!
     fileFilter: function (req, file, cb) {
@@ -67,7 +76,7 @@ const storage = multer.diskStorage({
     },
     destination: function (req, file, cb) {
         var metaName = 'public/classes/' + req.params.id; //+ req.params.ico;
-        cb(null, __dirname + '/' + metaName) //Здесь указывается путь для сохранения файлов
+        cb(null, __dirname + '/' + metaName); //Здесь указывается путь для сохранения файлов
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
@@ -76,6 +85,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //сохранение изменений иконки
+
 app.post('/classes/:id/:ico', upload.any(), function(req, res){
     console.log("сохранение изменений иконки req = ", req.files);
     //var id = app.params.id;
@@ -84,6 +94,7 @@ app.post('/classes/:id/:ico', upload.any(), function(req, res){
     res.send(req.rawHeaders);
 });
 
+//проверка на не пустое содержание
 function writeFileClasses(fileName, fileBody){      
     return new Promise(function(resolve, reject){
         if (!fileName){
@@ -201,7 +212,6 @@ app.get("/classes", function(request, responce){
 
 //маршрутизация в каталоге classes
 app.get('/classes/:id', function (req, response, next) {
-
     console.log('маршрутизация в каталоге classes id = ', req.params.id);
     var classes = [];
     var file = [];
@@ -219,25 +229,27 @@ app.get('/classes/:id', function (req, response, next) {
                     var icon = [];
                     file.forEach(function(item, i, arr){
                         //console.log('item = ', item, 'i = ', i);
-                        if (item == 'icon.png'){
+                        if (item === 'icon.png'){
                             file.splice(i, 1);
                             icon.push(item);
                             //console.log('icon = ', icon);
                             //console.log('file = ', file);
                             //response.send(file);
                         }
-                    })
+                    });
                     response.send(file);
                 })
                 .catch(next);
             return;        
         }
-        
+        //возможно isDirectory????
         if (isD)
             response.send([]);        
         return next(new Error('Unknown type'));
     });
 });
+
+
 
 
 
