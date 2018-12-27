@@ -44,9 +44,29 @@ app.post("/login", function(req, res, next){
     res.send(`${req.body.userLogin} - ${req.body.userPassword}`);
 });
 
+//multer запись файлов на диск
+const storage = multer.diskStorage({
+    //fileFilter - not working!!!!!!!!
+    fileFilter: function (req, file, cb) {
+        if (file.mimetype !== 'image/jpeg') {
+            req.fileValidationError = 'goes wrong on the mimetype';
+            return cb(null, false, new Error('goes wrong on the mimetype'));
+        }
+        cb(null, true);
+    },
+    destination: function (req, file, cb) {
+        var metaName = 'public/classes/' + req.params.id; //+ req.params.ico;
+        console.log('metaName = ',metaName, req.body);
+        cb(null, __dirname + '/' + metaName); //Здесь указывается путь для сохранения файлов
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
 
 //запись метаданных в каталог /classes
-app.post('/classes/:id', jsonParser, function(req, res, next){
+app.post('/classes/:id/json', jsonParser, function(req, res, next){
     console.log("запись метаданных в каталог /classes");
     
     var metaName = 'public/classes/' + req.params.id;
@@ -61,32 +81,11 @@ app.post('/classes/:id', jsonParser, function(req, res, next){
         console.log('fileName', fileName)  ;
         writeFileClasses(fileName, body[key]);
     }
+    res.send(req.body);
 });
-
-
-//multer 
-const storage = multer.diskStorage({
-    //fileFilter - not working!!!!!!!!
-    fileFilter: function (req, file, cb) {
-        if (file.mimetype !== 'image/jpeg') {
-            req.fileValidationError = 'goes wrong on the mimetype';
-            return cb(null, false, new Error('goes wrong on the mimetype'));
-        }
-        cb(null, true);
-    },
-    destination: function (req, file, cb) {
-        var metaName = 'public/classes/' + req.params.id; //+ req.params.ico;
-        cb(null, __dirname + '/' + metaName); //Здесь указывается путь для сохранения файлов
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-const upload = multer({ storage: storage });
 
 //сохранение изменений иконки
-
-app.post('/classes/:id/:ico', upload.any(), function(req, res){
+app.post('/classes/:id/png', upload.any(), function(req, res){
     console.log("сохранение изменений иконки req = ", req.files);
     //var id = app.params.id;
     //var ico = app.params.ico;
@@ -94,7 +93,9 @@ app.post('/classes/:id/:ico', upload.any(), function(req, res){
     res.send(req.rawHeaders);
 });
 
+
 //проверка на не пустое содержание
+//запись в файл
 function writeFileClasses(fileName, fileBody){      
     return new Promise(function(resolve, reject){
         if (!fileName){
@@ -102,8 +103,14 @@ function writeFileClasses(fileName, fileBody){
         }else if (!fileBody){
             reject(new Error('Not fileBody'));
         }else{            
-        fs.writeFileSync(fileName, fileBody);        
-        resolve('fileName create');
+            //fs.writeFileSync(fileName, fileBody);
+            fs.writeFile(fileName, fileBody, (err, result) => {
+                if (err) throw err;
+                if (result){
+                    resolve(fileName, ' created');
+                }
+            });
+            //resolve('fileName create');
         }
     });
 };
