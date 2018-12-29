@@ -52,6 +52,11 @@ var postJSON = function(event){
         headers: { "Content-Type" : "application/json" },
         method: "POST",
         body: formJson
+    })
+    .then(function(res){
+        var r = res;
+        console.log('r = ', res.body);
+        //alrt(res);
     });
 };
 

@@ -76,12 +76,14 @@ app.post('/classes/:id/json', jsonParser, function(req, res, next){
         fs.mkdirSync(metaName);
     }
     
+    //Promise.all(body)
     for (var key in body){
         let fileName = metaName + '/' + key;
-        console.log('fileName', fileName)  ;
+        
         writeFileClasses(fileName, body[key]);
     }
-    res.send(req.body);
+    console.log('fileName')  ;
+    res.send('1');
 });
 
 //сохранение изменений иконки
