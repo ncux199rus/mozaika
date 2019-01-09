@@ -29,7 +29,7 @@ function getObjectClasses(metaName){
                         document.getElementById("textArea" + item).innerHTML = result[i];
 //                       
                         //добавление существующим элементам динамических свойств
-                        });
+                    });
                     //создание меню навигации по карточке
                     createNavCard(metaName);
                     //создание иконки
@@ -116,7 +116,7 @@ function createNavCard(metaName){
 }
 
 //создание меню управления иконкой
-function addPic(){
+function addPic() {
     var newPic = document.createElement("img");
     var newInput = document.createElement("input");
     var newSubmit = document.createElement("input");
@@ -129,7 +129,15 @@ function addPic(){
     //newForm.setAttribute("enctype", "multypart/form-data");
           
     //newPic.setAttribute("src", "hypnoFrog.png");
-    newPic.setAttribute("src", catalogName + "/icon.png");
+    let pathIcon = catalogName + "/icon.png";
+    //if (pathIcon){
+        newPic.setAttribute("src", catalogName + "/icon.png");
+        //newPic.onload = function(){alert('картинка существует')};
+        newPic.onerror = function(){newPic.setAttribute("src", "hypnoFrog.png");};
+    //}else{
+    //if (newPic.onerror){
+    //    newPic.setAttribute("src", "hypnoFrog.png");
+    //};
     newPic.setAttribute("alt", "иконка");
     newPic.setAttribute("id", "imgId");
     newPic.setAttribute("width", "100px");
@@ -167,9 +175,12 @@ function addPic(){
 //отправка иконки на сервер
 function submitIco(){
     var path = document.getElementById("inputHeadId").value;
+    
     path = '/classes/' + path + '/png';
     console.log("path = ", path);
+    
     var file = document.getElementById("changePicInput").files[0];
+    console.log("file = ", file);
     var formData = new FormData();
     formData.append('picture', file, 'icon.png');
 
