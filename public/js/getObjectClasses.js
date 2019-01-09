@@ -33,7 +33,7 @@ function getObjectClasses(metaName){
                     //создание меню навигации по карточке
                     createNavCard(metaName);
                     //создание иконки
-                    addPic();
+                    addPic(catalogName);
             });
         })                    
         .catch(alert);
@@ -128,7 +128,8 @@ function addPic(){
     //newForm.setAttribute("method", "POST");
     //newForm.setAttribute("enctype", "multypart/form-data");
           
-    newPic.setAttribute("src", "hypnoFrog.png");
+    //newPic.setAttribute("src", "hypnoFrog.png");
+    newPic.setAttribute("src", catalogName + "/icon.png");
     newPic.setAttribute("alt", "иконка");
     newPic.setAttribute("id", "imgId");
     newPic.setAttribute("width", "100px");
