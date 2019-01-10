@@ -93,7 +93,7 @@ app.post('/classes/:id/png', upload.any(), function(req, res, next){
     if (arr.length == 0){
         let destFile = __dirname + '/public/classes/' + req.params.id + '/icon.png';
         console.log("destFile = ", destFile);
-        fs.copyFile(__dirname + "/public/hypnoFrog.png", destFile, (err) => err ? next(err) : res.status(200).send(''));
+        fs.copyFile(__dirname + "/public/default.png", destFile, (err) => err ? next(err) : res.status(200).send(''));
         return;
     }
     
