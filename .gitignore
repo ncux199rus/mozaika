@@ -2,4 +2,4 @@
 !/public/classes/test.txt
 *log*
 /node_modules/
-/.vs/
+.vs/
