@@ -122,12 +122,12 @@ function createNavCard(metaName){
             table.removeChild(tbody);
             
             //получение таблицы с катрочками метаданных
-            getListClasses();
+            getListClasses()
         });                    
 }
 
 //создание меню управления иконкой
-function addPic() {
+function addPic(catalogName) {
     var newPic = document.createElement("img");
     var newInput = document.createElement("input");
     var newSubmit = document.createElement("input");
@@ -136,11 +136,16 @@ function addPic() {
     var newButton = document.createElement("button");
     
     newSect.setAttribute("id", "picIcoId");
-    let pathIcon = catalogName + "/icon.png";
     
-    newPic.setAttribute("src", catalogName + "/icon.png");
-    
-    newPic.onerror = function(){newPic.setAttribute("src", "hypnoFrog.png");};
+    //let pathIcon = catalogName + "/icon.png";    
+    //newPic.setAttribute("src", catalogName + "/icon.png");    
+    //newPic.onerror = function(){newPic.setAttribute("src", "default.png");};
+    if (!catalogName){
+        newPic.setAttribute("src", "default.png");
+    }else{
+        let pathIcon = catalogName + "/icon.png";    
+        newPic.setAttribute("src", catalogName + "/icon.png");
+    }
     
     newPic.setAttribute("alt", "иконка");
     newPic.setAttribute("id", "imgId");
