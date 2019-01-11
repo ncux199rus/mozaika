@@ -91,11 +91,15 @@ app.post('/classes/:id/png', upload.any(), function(req, res, next){
     //проверка на пустой список файлов. если пустой то копируем штатную иконку
     let arr = req.files;
     
-    if (req.files && req.files.length == 0){
+    if (req.files && req.files.length === 0){
         let destFile = __dirname + '/public/classes/' + req.params.id + '/icon.png';
         console.log("destFile = ", destFile);
-        fs.copyFile(__dirname + "/public/default.png", destFile, (err) => err ? next(err) : res.status(200).send(''));
-        return;
+        if(!fs.existsSync(destFile)){
+            console.log("copy file");
+            fs.copyFile(__dirname + "/public/default.png", destFile, (err) => err ? next(err) : res.status(200).send(''));
+            return;
+        }
+        
     }else{    
         console.log("сохранение изменений иконки req = ", req.files);
         //var id = app.params.id;

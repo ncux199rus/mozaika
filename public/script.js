@@ -22,7 +22,7 @@ var changePage = function(beforePage, afterPage){
 };
 
 // запись изменений в каталог метаданных
-var postJSON = function(event){    
+var postJSON = function(){    
     console.log("postJSON");
     var objectFormData = {};
     //var metaName = document.getElementById('submitCard').getAttribute('ctl');
@@ -48,7 +48,7 @@ var postJSON = function(event){
     var formJson = JSON.stringify(objectFormData);
     console.log("formJson", formJson);
     
-    fetch("/classes/" + metaName + '/json', {
+    return fetch("/classes/" + metaName + '/json', {
         headers: { "Content-Type" : "application/json" },
         method: "POST",
         body: formJson
@@ -56,10 +56,11 @@ var postJSON = function(event){
     .then(function(res){
         if (res.status === 200){
             alert("Метаданные сохранены.");
-            return 200;
+            //return 200;
         }
-    });
+    })
 };
+
 
 //получение списка типов метаданных
 //добавление списка объектов метаданных на главную страницу

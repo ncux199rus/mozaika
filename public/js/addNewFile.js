@@ -27,7 +27,12 @@ function saveAllMetaCard(){
     let newButton = document.createElement("button");
     newButton.innerHTML = "SAVE ALL";
     
+        
     newButton.addEventListener('click', function(){
+        postJSON(event)
+                .then(res => submitIco().then(res => ...).catch())
+                .catch(...)
+        /*
         fetch(postJSON())
                 .then(res => {
                     //if (res === 200){
@@ -37,7 +42,9 @@ function saveAllMetaCard(){
 //                        alert(res);
 //                    } 
         });
+        */
     });
     
     card.appendChild(newButton);
+    
 }
