@@ -28,10 +28,9 @@ function saveAllMetaCard(){
     newButton.innerHTML = "SAVE ALL";
     
         
-    newButton.addEventListener('click', function(){
+    newButton.addEventListener('click', function () {
         postJSON(event)
-                .then(res => submitIco().then(res => ...).catch())
-                .catch(...)
+            .then(res => submitIco());                
         /*
         fetch(postJSON())
                 .then(res => {
@@ -45,6 +44,5 @@ function saveAllMetaCard(){
         */
     });
     
-    card.appendChild(newButton);
-    
+    card.appendChild(newButton);    
 }
