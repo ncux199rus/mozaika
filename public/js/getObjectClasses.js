@@ -106,25 +106,29 @@ function sreateHeadCard(item, num){
 function createNavCard(metaName){
     document.getElementById('submitCard').setAttribute('ctl', metaName);
     document.getElementById('submitCard').addEventListener('click', postJSON);
-    document.getElementById('cancelCard').addEventListener('click', function(){
-            //очистка мета данных
-            document.getElementById('cardId').innerHTML = ''; 
-            
-            //удаление кнопок навигации
-            var parent = document.getElementById('card');
-            var child = document.getElementById('picIcoId');
-            parent.removeChild(child);
-            changePage('card', 'main');
-            
-            //очистка таблицы с катрочками метаданных
-            let table = document.getElementById("tableClasses");
-            let tbody = document.getElementById("tbodyTableClass");
-            table.removeChild(tbody);
-            
-            //получение таблицы с катрочками метаданных
-            getListClasses()
-        });                    
-}
+    document.getElementById('cancelCard').addEventListener('click', exitCard);
+};
+
+function exitCard(){
+    //очистка мета данных
+    document.getElementById('cardId').innerHTML = ''; 
+    
+    //удаление кнопок навигации
+    var parent = document.getElementById('card');
+    var child = document.getElementById('picIcoId');
+    parent.removeChild(child);
+    
+    //смена экранов
+    changePage('card', 'main');
+    
+    //очистка таблицы с карточками метаданных
+    let table = document.getElementById("tableClasses");
+    let tbody = document.getElementById("tbodyTableClass");
+    table.removeChild(tbody);
+    
+    //получение таблицы с карточками метаданных
+    getListClasses()
+};                    
 
 //создание меню управления иконкой
 function addPic(catalogName) {
