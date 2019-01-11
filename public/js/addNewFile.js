@@ -18,5 +18,5 @@ function createNewCard(){
     var headInputId = sreateHeadCard('FileName', 1); 
     createNavCard('metaName');
     createElement("meta.json");    
-    addPic();    
+    addPic();      
 }

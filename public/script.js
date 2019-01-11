@@ -54,16 +54,15 @@ var postJSON = function(event){
         body: formJson
     })
     .then(function(res){
-        var r = res;
-        console.log('r = ', res.body);
-        //alrt(res);
+        if (res.status == 200){
+            alert("Метаданные сохранены.");
+        }
     });
 };
 
 //получение списка типов метаданных
 //добавление списка объектов метаданных на главную страницу
 function getListClasses(){
-    //console.log("getListClasses");
     
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/classes', true);
@@ -74,20 +73,26 @@ function getListClasses(){
         if (xhr.status !== 200){
             alert( xhr.status + ": " + xhr.statusText);
         }else{
+            let newTbody = document.createElement('tbody');
+            newTbody.setAttribute("id", "tbodyTableClass");
+            tableClasses.appendChild(newTbody);
+            
             a = JSON.parse(xhr.responseText);
             a.forEach(function(item, i, a){
                 let newRow = document.createElement('tr');
                 let newDataName = document.createElement('td');
                 let newDataDesc = document.createElement('td');
                 let newDataChange = document.createElement('td');
+                
+                newRow.setAttribute("class", "rowTableCard");
                 newDataName.innerHTML = a[i];
                 newRow.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
                 
-                //console.log("newDataName.value = ", newDataName.innerHTML);
                 newRow.appendChild(newDataName);
                 newRow.appendChild(newDataDesc);
                 newRow.appendChild(newDataChange);
-                tableClasses.appendChild(newRow);
+                newTbody.appendChild(newRow);
+                //tableClasses.appendChild(newRow);
                 //console.log(a[i]);
             });
                
