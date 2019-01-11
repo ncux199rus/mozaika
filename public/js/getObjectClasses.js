@@ -198,7 +198,7 @@ function submitIco(){
         body: formData
     })
             .then(response => {
-                if (response.status == "200"){
+                if (response.status === 200){
                     alert("Icon save!");
                 }else{
                     alert(response);

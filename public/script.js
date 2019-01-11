@@ -54,8 +54,9 @@ var postJSON = function(event){
         body: formJson
     })
     .then(function(res){
-        if (res.status == 200){
+        if (res.status === 200){
             alert("Метаданные сохранены.");
+            return 200;
         }
     });
 };
