@@ -83,25 +83,30 @@ app.post('/classes/:id/json', jsonParser, function(req, res, next){
         writeFileClasses(fileName, body[key]);
     }
     console.log('fileName')  ;
-    res.send('1');
+    res.status(200).send('');
 });
 
 //сохранение изменений иконки
 app.post('/classes/:id/png', upload.any(), function(req, res, next){
     //проверка на пустой список файлов. если пустой то копируем штатную иконку
     let arr = req.files;
-    if (arr.length == 0){
+    
+    if (req.files && req.files.length === 0){
         let destFile = __dirname + '/public/classes/' + req.params.id + '/icon.png';
         console.log("destFile = ", destFile);
-        fs.copyFile(__dirname + "/public/hypnoFrog.png", destFile, (err) => err ? next(err) : res.status(200).send(''));
-        return;
+        if(!fs.existsSync(destFile)){
+            console.log("copy file");
+            fs.copyFile(__dirname + "/public/default.png", destFile, (err) => err ? next(err) : res.status(200).send(''));
+            return;
+        }
+        
+    }else{    
+        console.log("сохранение изменений иконки req = ", req.files);
+        //var id = app.params.id;
+        //var ico = app.params.ico;
+        res.status(200).send('');
+        //res.send(req.rawHeaders);
     }
-    
-    console.log("сохранение изменений иконки req = ", req.files);
-    //var id = app.params.id;
-    //var ico = app.params.ico;
-    
-    res.send(req.rawHeaders);
 });
 
 

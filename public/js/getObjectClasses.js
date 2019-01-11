@@ -107,16 +107,27 @@ function createNavCard(metaName){
     document.getElementById('submitCard').setAttribute('ctl', metaName);
     document.getElementById('submitCard').addEventListener('click', postJSON);
     document.getElementById('cancelCard').addEventListener('click', function(){
+            //очистка мета данных
             document.getElementById('cardId').innerHTML = ''; 
+            
+            //удаление кнопок навигации
             var parent = document.getElementById('card');
             var child = document.getElementById('picIcoId');
             parent.removeChild(child);
             changePage('card', 'main');
+            
+            //очистка таблицы с катрочками метаданных
+            let table = document.getElementById("tableClasses");
+            let tbody = document.getElementById("tbodyTableClass");
+            table.removeChild(tbody);
+            
+            //получение таблицы с катрочками метаданных
+            getListClasses()
         });                    
 }
 
 //создание меню управления иконкой
-function addPic() {
+function addPic(catalogName) {
     var newPic = document.createElement("img");
     var newInput = document.createElement("input");
     var newSubmit = document.createElement("input");
@@ -125,19 +136,17 @@ function addPic() {
     var newButton = document.createElement("button");
     
     newSect.setAttribute("id", "picIcoId");
-    //newForm.setAttribute("method", "POST");
-    //newForm.setAttribute("enctype", "multypart/form-data");
-          
-    //newPic.setAttribute("src", "hypnoFrog.png");
-    let pathIcon = catalogName + "/icon.png";
-    //if (pathIcon){
+    
+    //let pathIcon = catalogName + "/icon.png";    
+    //newPic.setAttribute("src", catalogName + "/icon.png");    
+    //newPic.onerror = function(){newPic.setAttribute("src", "default.png");};
+    if (!catalogName){
+        newPic.setAttribute("src", "default.png");
+    }else{
+        let pathIcon = catalogName + "/icon.png";    
         newPic.setAttribute("src", catalogName + "/icon.png");
-        //newPic.onload = function(){alert('картинка существует')};
-        newPic.onerror = function(){newPic.setAttribute("src", "hypnoFrog.png");};
-    //}else{
-    //if (newPic.onerror){
-    //    newPic.setAttribute("src", "hypnoFrog.png");
-    //};
+    }
+    
     newPic.setAttribute("alt", "иконка");
     newPic.setAttribute("id", "imgId");
     newPic.setAttribute("width", "100px");
@@ -187,6 +196,13 @@ function submitIco(){
     fetch(path, {
         method: 'POST',
         body: formData
+    })
+            .then(response => {
+                if (response.status === 200){
+                    alert("Icon save!");
+                }else{
+                    alert(response);
+                }
     });
 };
 

@@ -18,5 +18,33 @@ function createNewCard(){
     var headInputId = sreateHeadCard('FileName', 1); 
     createNavCard('metaName');
     createElement("meta.json");    
-    addPic();    
+    addPic();  
+    saveAllMetaCard();
+}
+
+//кнопка сохранить всю новую карточку
+function saveAllMetaCard(){
+    let newButton = document.createElement("button");
+    newButton.innerHTML = "SAVE ALL";
+    
+        
+    newButton.addEventListener('click', function(){
+        postJSON(event)
+                .then(res => submitIco().then(res => ...).catch())
+                .catch(...)
+        /*
+        fetch(postJSON())
+                .then(res => {
+                    //if (res === 200){
+                        submitIco();
+                        console.log("save res = ", res);
+//                    }else{
+//                        alert(res);
+//                    } 
+        });
+        */
+    });
+    
+    card.appendChild(newButton);
+    
 }
