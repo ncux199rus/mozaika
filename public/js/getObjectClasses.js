@@ -56,7 +56,7 @@ function getObjectClasses(metaName){
     itemPropertyCard.forEach((item) => {
         //xhr.open('GET', catalogName + '/' + item, true);
         //xhr.send();
-        console.log('catalogName + '/' + item)', catalogName + '/' + item);
+        console.log('catalogName + "/" + item)', catalogName + '/' + item);
     });
 };
 

@@ -62,7 +62,7 @@ var postJSON = function(){
 };
 
 
-//получение списка типов метаданных
+//получение списка файлов метаданных
 //добавление списка объектов метаданных на главную страницу
 function getListClasses(){
     
@@ -85,14 +85,23 @@ function getListClasses(){
                 let newDataName = document.createElement('td');
                 let newDataDesc = document.createElement('td');
                 let newDataChange = document.createElement('td');
+                let newButton = document.createElement("button");
                 
                 newRow.setAttribute("class", "rowTableCard");
                 newDataName.innerHTML = a[i];
-                newRow.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
-                
+                //newRow.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
+                newDataName.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
+                newDataDesc.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
+                newDataChange.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
+                newButton.innerHTML = "del";
+                newButton.setAttribute("value", a[i]);
+                newButton.addEventListener("click", () => (delOjectMetaData(newDataName.innerHTML)))
+
                 newRow.appendChild(newDataName);
                 newRow.appendChild(newDataDesc);
                 newRow.appendChild(newDataChange);
+                newRow.appendChild(newButton);
+
                 newTbody.appendChild(newRow);
                 //tableClasses.appendChild(newRow);
                 //console.log(a[i]);
