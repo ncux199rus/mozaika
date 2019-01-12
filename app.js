@@ -272,7 +272,22 @@ app.get('/classes/:id', function (req, response, next) {
     });
 });
 
+//удаление каталога объекта метаданных
+app.post('/classes/:id/del', express.json(), (req, res, next) => {
+    let id = req.params.id;
+    if(!req.body || !Object.keys(req.body).length) 
+        return next(new Error('Empty body'));   
 
+    body = req.body;
+    if (body.typeObject == 'catalog'){
+        fs.rmdir(__dirname + '/public/classes/' + id + '/', (err) =>{
+            if (err){
+                return next (err);
+            }
+            res.status(200).send('');
+        })
+    }        
+});
 
 
 

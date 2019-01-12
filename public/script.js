@@ -95,7 +95,7 @@ function getListClasses(){
                 newDataChange.addEventListener("click", () => (getObjectClasses(newDataName.innerHTML)));
                 newButton.innerHTML = "del";
                 newButton.setAttribute("value", a[i]);
-                newButton.addEventListener("click", () => (delOjectMetaData(newDataName.innerHTML)))
+                newButton.addEventListener("click", () => (delOjectMetaData('catalog', newDataName.innerHTML)))
 
                 newRow.appendChild(newDataName);
                 newRow.appendChild(newDataDesc);
