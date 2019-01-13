@@ -185,13 +185,9 @@ function getObjectType(name, dir, classes, file){
                 };
                 //получение списка файлов 
                 if (stats.isFile()) {
-                    ////определение типа файла
-                    //if (path.extname(name) == ".png"){
-                    //    console.log("name = ", name);
-                    //}else{                        
+                    ////определение типа файла                                          
                         file.push(name);
-                        res('file');
-                    //}
+                        res('file');                    
                 }
                 //получение списка каталогов
                 if (stats.isDirectory()) {
@@ -274,22 +270,69 @@ app.get('/classes/:id', function (req, response, next) {
 
 //удаление каталога объекта метаданных
 app.post('/classes/:id/del', express.json(), (req, res, next) => {
+    console.log("Удаление ", req.params.id)
+    var dir = './public/classes/';
     let id = req.params.id;
     if(!req.body || !Object.keys(req.body).length) 
         return next(new Error('Empty body'));   
 
-    body = req.body;
-    if (body.typeObject == 'catalog'){
-        fs.rmdir(__dirname + '/public/classes/' + id + '/', (err) =>{
-            if (err){
-                return next (err);
-            }
-            res.status(200).send('');
-        })
-    }        
+    let body = req.body;
+    let name = body.nameObject;
+    let path = dir + name;
+    console.log("path = ", path)
+    let classes = [];
+    let file = [];
+    fs.stat(path, (err, stats) => {
+        if (err) return next(new Error('Unknown status file'));
+
+        if (stats.isFile()){
+            console.log("function delete file");
+        }
+
+        if(stats.isDirectory()){
+            console.log("function deleted is directory");
+            deleteIsDyrectory(path);
+        }
+    })     
 });
 
+//удаление файла
+function deleteIsFile(path){
+    return new Promise((resolve, reject) => {
+        fs.unlink(path, (err) => {
+            if (err) console.log(err);
+        })
 
+    })
+};
+
+//удаление каталога
+function deleteIsDyrectory(path){
+
+    fs.readdir(path, (err, files) => {
+        if (err) console.log(err);  
+        //delete file if exists
+        if (files.length != 0){
+            //let promDellFiles = new Promise(function(resolve, reject){
+                /*files.forEach((item) => {
+                    deleteIsFile(path + '/' + item);
+                })*/
+                //Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
+                Promise.all(files.map(fileItem => deleteIsFile(path + '/' + fileItem)))    
+                //resolve("Files deleted");
+            //})
+            //не заходит в удаление каталога!!!!!!!!!!!!!!
+            .then((resolve) => {
+                fs.rmdir(path, (err) => {
+                    if (err) {
+                        console.log(err);            
+                    };
+                });
+            })
+        }
+    })
+    
+};
 
 //подклюсение /public как каталога по умолчанию
 app.use('/', express.static(__dirname + "/public"));
