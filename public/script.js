@@ -58,7 +58,7 @@ var postJSON = function(){
             alert("Метаданные сохранены.");
             //return 200;
         }
-    })
+    });
 };
 
 
