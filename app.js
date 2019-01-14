@@ -202,7 +202,7 @@ function getObjectType(name, dir, classes, file){
 
 //получение списка мета объектов
 app.get("/classes", function(request, responce){
-    console.log("получение списка мета объектов");    
+    //console.log("получение списка мета объектов");    
     var classes = [];
     var file = [];
     var dir = './public/classes/'; 
@@ -347,13 +347,13 @@ function deleteDirectory(path){
         fs.readdir(path, (err, files) => {
             if (err) console.log(err);  
             //delete file if exists
-            if (files.length !== 0){
+            //if (files.length !== 0){
                 //let promDellFiles = new Promise(function(resolve, reject){
                     /*files.forEach((item) => {
                         deleteIsFile(path + '/' + item);
                     })*/
                     //Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
-                    Promise.all(files.map(fileItem => deleteIsFile(path + '/' + fileItem)))    
+                Promise.all(files.map(fileItem => deleteIsFile(path + '/' + fileItem)))    
                     //resolve("Files deleted");
                 //})
                 //не заходит в удаление каталога!!!!!!!!!!!!!!
@@ -367,7 +367,7 @@ function deleteDirectory(path){
                     });
                 })
                 .catch((err) => reject(err));
-            }
+            //}
         });
     });    
 };
