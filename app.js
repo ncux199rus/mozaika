@@ -279,7 +279,7 @@ app.post('/classes/:id/del', express.json(), (req, res, next) => {
     let body = req.body;
     let name = body.nameObject;
     let path = dir + name;
-    console.log("path = ", path)
+    console.log("path = ", path);
     let classes = [];
     let file = [];
     fs.stat(path, (err, stats) => {
@@ -291,47 +291,85 @@ app.post('/classes/:id/del', express.json(), (req, res, next) => {
 
         if(stats.isDirectory()){
             console.log("function deleted is directory");
-            deleteIsDyrectory(path);
+            
+            deleteDirectory(path)
+                .then((list) => res.status(200).send(''))
+                .catch(err => next(err));    
+            /*
+            deleteDirectory(path, function (err, result) {
+                if (err)
+                    return next(err);
+                
+                result = [...]
+                res.status(200).json(result);
+            });
+            */
         }
-    })     
+    });     
 });
+
+
+//return Promise.All(files.map(fsPromise.unlink))
 
 //удаление файла
 function deleteIsFile(path){
     return new Promise((resolve, reject) => {
-        fs.unlink(path, (err) => {
-            if (err) console.log(err);
-        })
-
-    })
+        fs.unlink(path, (err) => err ? reject(err) : resolve("deleted"));
+    });
 };
-
-//удаление каталога
-function deleteIsDyrectory(path){
-
+/*
+function deleteDirectory(path, cb) {
     fs.readdir(path, (err, files) => {
-        if (err) console.log(err);  
-        //delete file if exists
-        if (files.length != 0){
-            //let promDellFiles = new Promise(function(resolve, reject){
-                /*files.forEach((item) => {
-                    deleteIsFile(path + '/' + item);
-                })*/
-                //Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
+        if (err)
+            return cb(err);
+        
+        return Promise.All(files.map(fsPromise.unlink)).then( ... )
                 Promise.all(files.map(fileItem => deleteIsFile(path + '/' + fileItem)))    
-                //resolve("Files deleted");
-            //})
-            //не заходит в удаление каталога!!!!!!!!!!!!!!
             .then((resolve) => {
                 fs.rmdir(path, (err) => {
                     if (err) {
-                        console.log(err);            
+                        return cb(err)
+                        // console.log(err);            
                     };
+                    cb(null, [...]);
+                //return("res.status(200).send('deleted ok')");
                 });
             })
         }
-    })
-    
+    })    
+}
+
+*/
+
+//удаление каталога
+function deleteDirectory(path){
+    return new Promise((resolve, reject) =>{
+        fs.readdir(path, (err, files) => {
+            if (err) console.log(err);  
+            //delete file if exists
+            if (files.length !== 0){
+                //let promDellFiles = new Promise(function(resolve, reject){
+                    /*files.forEach((item) => {
+                        deleteIsFile(path + '/' + item);
+                    })*/
+                    //Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
+                    Promise.all(files.map(fileItem => deleteIsFile(path + '/' + fileItem)))    
+                    //resolve("Files deleted");
+                //})
+                //не заходит в удаление каталога!!!!!!!!!!!!!!
+                .then((res) => {
+                    fs.rmdir(path, (err) => {
+                        if (err) {
+                            console.log(err);            
+                        };
+                        resolve('deleted ok');
+                    //return("res.status(200).send('deleted ok')");
+                    });
+                })
+                .catch((err) => reject(err));
+            }
+        });
+    });    
 };
 
 //подклюсение /public как каталога по умолчанию

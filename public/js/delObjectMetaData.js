@@ -11,7 +11,7 @@ function delOjectMetaData(object, nameObject){
     let delOject = {
         typeObject: object,
         nameObject: nameObject
-    }
+    };
     let delJSONObject = JSON.stringify(delOject);
     console.log(delJSONObject);
 
@@ -27,8 +27,13 @@ function delOjectMetaData(object, nameObject){
 .then(response =>{
     if (response.status === 200){
         alert('Объект ' + nameObject + ' удален.');
+
+        //очистка тела таблицы со списком мета каталогов
+        clearBodyTables();    
+        //получение таблицы с карточками метаданных
+        getListClasses();
     }else{
         console.log(response);
     }
-})
+});
 };

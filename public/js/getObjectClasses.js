@@ -122,13 +122,22 @@ function exitCard(){
     changePage('card', 'main');
     
     //очистка таблицы с карточками метаданных
+    clearBodyTables();
+    //let table = document.getElementById("tableClasses");
+    //let tbody = document.getElementById("tbodyTableClass");
+    //table.removeChild(tbody);
+    
+    //получение таблицы с карточками метаданных
+    getListClasses();
+};                   
+
+//очистка тела таблицы со списком мета каталогов
+function clearBodyTables(){
+    //очистка таблицы с карточками метаданных
     let table = document.getElementById("tableClasses");
     let tbody = document.getElementById("tbodyTableClass");
     table.removeChild(tbody);
-    
-    //получение таблицы с карточками метаданных
-    getListClasses()
-};                    
+};
 
 //создание меню управления иконкой
 function addPic(catalogName) {
