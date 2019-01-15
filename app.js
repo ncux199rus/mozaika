@@ -32,6 +32,8 @@ const typeis = require('type-is');
 //app.use(bodyParser.urlencoded({ extended: false }));
 
 //
+//app.use((req, res, next) => console.log(req.method, req.url, req.params, req.query) || next());
+
 app.post("/login", function(req, res, next){
     if(!req.body) return res.sendStatus(400);
     console.log("req.body login = " ,req.body);
@@ -276,10 +278,11 @@ app.get('/classes/:id', function (req, response, next) {
 });
 
 //удаление каталога объекта метаданных
-app.post('/classes/:id/del', express.json(), (req, res, next) => {
+//app.delete('/classes/:id/del', express.json(), (req, res, next) => {
+app.delete('/classes/', express.json(), (req, res, next) => {
     console.log("Удаление ", req.params.id);
     var dir = './public/classes/';
-    let id = req.params.id;
+    //let id = req.params.id;
     if(!req.body || !Object.keys(req.body).length) 
         return next(new Error('Empty body'));   
 
@@ -287,13 +290,17 @@ app.post('/classes/:id/del', express.json(), (req, res, next) => {
     let name = body.nameObject;
     let path = dir + name;
     console.log("path = ", path);
-    let classes = [];
-    let file = [];
+    //let classes = [];
+    //let file = [];
     fs.stat(path, (err, stats) => {
-        if (err) return next(new Error('Unknown status file'));
+        if (err) 
+            return next(new Error('Unknown status file'));
 
         if (stats.isFile()){
             console.log("function delete file");
+            deleteFile(path)
+                .then((list) => res.status(200).send(''))
+                .catch(err => next(err));
         }
 
         if(stats.isDirectory()){
@@ -319,7 +326,7 @@ app.post('/classes/:id/del', express.json(), (req, res, next) => {
 //return Promise.All(files.map(fsPromise.unlink))
 
 //удаление файла
-function deleteIsFile(path){
+function deleteFile(path){
     return new Promise((resolve, reject) => {
         fs.unlink(path, (err) => err ? reject(err) : resolve("deleted"));
     });
@@ -360,7 +367,7 @@ function deleteDirectory(path){
                         deleteIsFile(path + '/' + item);
                     })*/
                     //Promise.all(files.map(name => getObjectType(name, dir, classes, file)))
-                Promise.all(files.map(fileItem => deleteIsFile(path + '/' + fileItem)))    
+                Promise.all(files.map(fileItem => deleteFile(path + '/' + fileItem)))    
                     //resolve("Files deleted");
                 //})
                 //не заходит в удаление каталога!!!!!!!!!!!!!!

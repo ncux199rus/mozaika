@@ -4,7 +4,7 @@
 function getObjectClasses(metaName){
     changePage('main', 'card');    
     
-    console.log("testSetListClasses");
+    console.log("testSetListClasses, metaname = ", metaName);
     catalogName = '/classes/' + metaName;    
     var itemPropertyCard = [];
     
@@ -52,12 +52,12 @@ function getObjectClasses(metaName){
                 return text;
             });
     };       
-            
+        /*    
     itemPropertyCard.forEach((item) => {
         //xhr.open('GET', catalogName + '/' + item, true);
         //xhr.send();
         console.log('catalogName + "/" + item)', catalogName + '/' + item);
-    });
+    });*/
 };
 
 //создание нового тестового поля
@@ -80,9 +80,15 @@ function createElement(item){
     
     newButton.innerHTML = "del";
     newButton.setAttribute("value", item);
-    newButton.addEventListener("click", () => (delOjectMetaData('catalog', 
-                                            document.getElementById("inputHeadId").value + '/' +
-                                            newButton.getAttribute("value"))));
+    newButton.setAttribute("type", "button");
+    
+    
+    newButton.addEventListener("click", (event) => {
+        event.stopImmediatePropagation();
+        var dir = document.getElementById("inputHeadId").value;
+        var file = newButton.getAttribute("value");
+        delOjectMetaData('file', dir + '/' + file);
+    });
     
     newFieldSet.appendChild(newLabel);
     newFieldSet.appendChild(newTextArea);
@@ -120,6 +126,9 @@ function createNavCard(metaName){
 };
 
 function exitCard(){
+    //очистка экрана карточи метаданных
+    clearCard();
+    /*
     //очистка мета данных
     document.getElementById('cardId').innerHTML = ''; 
     
@@ -127,7 +136,7 @@ function exitCard(){
     var parent = document.getElementById('card');
     var child = document.getElementById('picIcoId');
     parent.removeChild(child);
-    
+    */
     //смена экранов
     changePage('card', 'main');
     
@@ -139,7 +148,18 @@ function exitCard(){
     
     //получение таблицы с карточками метаданных
     getListClasses();
-};                   
+};
+
+//очистка экрана карточи метаданных
+function clearCard(){
+    //очистка мета данных
+    document.getElementById('cardId').innerHTML = ''; 
+    
+    //удаление кнопок навигации
+    var parent = document.getElementById('card');
+    var child = document.getElementById('picIcoId');
+    parent.removeChild(child);
+}
 
 //очистка тела таблицы со списком мета каталогов
 function clearBodyTables(){

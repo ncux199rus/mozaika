@@ -22,7 +22,8 @@ var changePage = function(beforePage, afterPage){
 };
 
 // запись изменений в каталог метаданных
-var postJSON = function(){    
+var postJSON = function(){ 
+    
     console.log("postJSON");
     var objectFormData = {};
     //var metaName = document.getElementById('submitCard').getAttribute('ctl');
