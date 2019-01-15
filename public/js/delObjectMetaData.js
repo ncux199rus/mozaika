@@ -24,16 +24,16 @@ function delOjectMetaData(object, nameObject){
           },      
         body: delJSONObject
     })
-.then(response =>{
-    if (response.status === 200){
-        alert('Объект ' + nameObject + ' удален.');
+    .then(response =>{
+        if (response.status === 200){
+            alert('Объект ' + nameObject + ' удален.');
 
-        //очистка тела таблицы со списком мета каталогов
-        clearBodyTables();    
-        //получение таблицы с карточками метаданных
-        getListClasses();
-    }else{
-        console.log(response);
-    }
-});
+            //очистка тела таблицы со списком мета каталогов
+            clearBodyTables();    
+            //получение таблицы с карточками метаданных
+            getListClasses();
+        }else{
+            console.log(response);
+        }
+    });
 };

@@ -64,6 +64,8 @@ function getObjectClasses(metaName){
 function createElement(item){
     var newLabel = document.createElement("label");
     var newTextArea = document.createElement("textarea");
+    let newButton = document.createElement("button");
+    let newFieldSet = document.createElement("fieldset");
     
     newTextArea.setAttribute("id", "textArea" + item);    
     newTextArea.setAttribute("rows", "3");
@@ -76,8 +78,16 @@ function createElement(item){
     newLabel.setAttribute("class", "classLabel");
     newLabel.setAttribute("name", "label-" + item);
     
-    cardId.appendChild(newLabel);
-    cardId.appendChild(newTextArea);
+    newButton.innerHTML = "del";
+    newButton.setAttribute("value", item);
+    newButton.addEventListener("click", () => (delOjectMetaData('catalog', 
+                                            document.getElementById("inputHeadId").value + '/' +
+                                            newButton.getAttribute("value"))));
+    
+    newFieldSet.appendChild(newLabel);
+    newFieldSet.appendChild(newTextArea);
+    newFieldSet.appendChild(newButton);
+    cardId.appendChild(newFieldSet);
 };
 
 //создание заголовка карточки

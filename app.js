@@ -80,10 +80,17 @@ app.post('/classes/:id/json', jsonParser, function(req, res, next){
     for (var key in body){
         let fileName = metaName + '/' + key;
         
-        writeFileClasses(fileName, body[key]);
+        writeFileClasses(fileName, body[key])
+        .then((response) => {
+            console.log('fileName')  ;
+            res.status(200).send('');
+        })
+        .catch((err) => {
+            console.log("запись метаданных в каталог /classes", err);
+            res.status(304).send(err);
+        });
     }
-    console.log('fileName')  ;
-    res.status(200).send('');
+    
 });
 
 //сохранение изменений иконки
@@ -115,7 +122,7 @@ app.post('/classes/:id/png', upload.any(), function(req, res, next){
 function writeFileClasses(fileName, fileBody){      
     return new Promise(function(resolve, reject){
         if (!fileName){
-            reject(new Error('Not fileName'));
+            reject(new Error('Not fileName'));            
         }else if (!fileBody){
             reject(new Error('Not fileBody'));
         }else{            
@@ -270,7 +277,7 @@ app.get('/classes/:id', function (req, response, next) {
 
 //удаление каталога объекта метаданных
 app.post('/classes/:id/del', express.json(), (req, res, next) => {
-    console.log("Удаление ", req.params.id)
+    console.log("Удаление ", req.params.id);
     var dir = './public/classes/';
     let id = req.params.id;
     if(!req.body || !Object.keys(req.body).length) 

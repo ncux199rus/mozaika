@@ -30,7 +30,7 @@ var postJSON = function(){
     //var form = new FormData(document.forms.classCard);
     var form = new FormData(document.getElementById('cardId')); 
     // querySelector('form[name="nameCard"]')
-    console.log("form", form);
+    //console.log("form", form);
     //form.append("icon", "icon.ico");//добавление пути иконки
     
     //разбор ключей формы для формирования названия файлов
@@ -53,11 +53,17 @@ var postJSON = function(){
         method: "POST",
         body: formJson
     })
-    .then(function(res){
+    .then(function(res){        
         if (res.status === 200){
             alert("Метаданные сохранены.");
             //return 200;
+        }else if (res.status === 304){
+            alert("Not fileBody.");
         }
+    })
+    .catch((err) => {
+        //console.log(err);
+        if(err) alert(err);
     });
 };
 
