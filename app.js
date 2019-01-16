@@ -123,21 +123,26 @@ app.post('/classes/:id/png', upload.any(), function(req, res, next){
 //запись в файл
 function writeFileClasses(fileName, fileBody){      
     return new Promise(function(resolve, reject){
-        if (!fileName){
-            reject(new Error('Not fileName'));            
-        }else if (!fileBody){
-            reject(new Error('Not fileBody'));
-        }else{            
-            //fs.writeFileSync(fileName, fileBody);
-            fs.writeFile(fileName, fileBody, (err, result) => {
-                if (err) throw err;
-                if (result){
-                    resolve(fileName, ' created');
-                }
-            });
-            //resolve('fileName create');
-        }
-    });
+        if (!fileName)
+            return reject(new Error('Not fileName'));            
+            
+        if (!fileBody)
+            return reject(new Error('Not fileBody'));
+            
+        //fs.writeFileSync(fileName, fileBody);
+        
+        fs.writeFile(fileName, fileBody, (err, result) => {
+            console.log(123, err, result)
+            if (err) 
+                //throw err;
+                return reject(err);
+
+            
+            resolve(fileName, ' created');
+            
+        });
+
+    })
 };
 //запись метаданных в каталог 
 //не используется!!!!!!!!!!!!!!
