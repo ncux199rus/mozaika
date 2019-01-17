@@ -16,10 +16,11 @@ th{
     border: 2px solid black;
     font-weight: bold;
 }
+/*
 tr{
     
 }
-
+*/
 td{
     border: 1px solid black;
     font-family: sans-serif;
@@ -50,5 +51,9 @@ td{
 }
 
 .navContent{
-    background-color: #FFE4E1;
+    background-color: #FFE4E1;    
+}
+
+.carrently{
+    border: #66ff66 solid 3px;
 }

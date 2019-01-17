@@ -104,8 +104,9 @@ function createElement(item){
     
     newLegend.innerHTML = item;
     
-    navLi.setAttribute("nameFile", item);
+    navLi.setAttribute("id", item);
     navLi.innerHTML = item;
+    navLi.addEventListener("click", function(event) {choiseFile(item)});
     navUl.appendChild(navLi);
     
     newButton.addEventListener("click", (event) => {
@@ -116,6 +117,7 @@ function createElement(item){
     });
     
     newFieldSet.setAttribute("class", "navContent");
+    newFieldSet.setAttribute("class", "unvisible");
     newFieldSet.setAttribute('id', item);
     
     
@@ -124,6 +126,27 @@ function createElement(item){
     newFieldSet.appendChild(newButton);
     newFieldSet.appendChild(newLegend);
     cardId.appendChild(newFieldSet);
+};
+
+function choiseFile(item){
+    console.log("choiseFile");
+    let element = document.querySelectorAll('.classCard .navContent');
+    for (var i = 0; i < element.length; i++){
+        console.log('element =',  element[i]);
+        element[i].classList.add("unvisible");
+    }
+
+    let current = document.querySelectorAll(".classCard #" + item);
+    for (var i = 0; i < current.length; i++){
+        console.log('element =',  current[i]);
+        current[i].classList.remove("unvisible");
+    }    
+    
+    let li = document.querySelectorAll('#navMenu #' + item);
+    for (var i = 0; i < li.length; i++){
+        console.log('element =',  li[i]);
+        li[i].classList.add("buttonAdd");
+    } 
 };
 
 //создание заголовка карточки
