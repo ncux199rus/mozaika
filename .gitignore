@@ -1,4 +1,4 @@
-/public/classes/
+/public/classes/*
 !/public/classes/test.txt
 *log*
 /node_modules/
