@@ -19,6 +19,9 @@ function getObjectClasses(metaName){
                 .then(function(result){
                     console.log("Promise all", result);
                     //создание объекта на странице
+                    
+                    //создание меню навигации по карточке
+                    createNavCard(metaName);
                     //создание шапки карточки
                     sreateHeadCard(metaName, 0); 
                     //создание и наполнеине textarea
@@ -30,8 +33,7 @@ function getObjectClasses(metaName){
 //                       
                         //добавление существующим элементам динамических свойств
                     });
-                    //создание меню навигации по карточке
-                    createNavCard(metaName);
+                    
                     //создание иконки
                     addPic(catalogName);
             });
@@ -60,12 +62,30 @@ function getObjectClasses(metaName){
     });*/
 };
 
+//создание общих элементов управления
+function createNavCard(metaName){
+    //создание навигации по карте метаданных
+    let navMenu = document.createElement('div');
+    navMenu.setAttribute("id", "navMenu");
+    let navUl = document.createElement('ul');
+    navUl.setAttribute('id', "navUl");
+    navMenu.appendChild(navUl);
+    cardId.appendChild(navMenu);
+    
+    //
+    document.getElementById('submitCard').setAttribute('ctl', metaName);
+    document.getElementById('submitCard').addEventListener('click', postJSON);
+    document.getElementById('cancelCard').addEventListener('click', exitCard);
+};
+
 //создание нового тестового поля
 function createElement(item){
     var newLabel = document.createElement("label");
     var newTextArea = document.createElement("textarea");
     let newButton = document.createElement("button");
     let newFieldSet = document.createElement("fieldset");
+    let newLegend = document.createElement("legend");
+    let navLi = document.createElement('li');
     
     newTextArea.setAttribute("id", "textArea" + item);    
     newTextArea.setAttribute("rows", "3");
@@ -82,6 +102,11 @@ function createElement(item){
     newButton.setAttribute("value", item);
     newButton.setAttribute("type", "button");
     
+    newLegend.innerHTML = item;
+    
+    navLi.setAttribute("nameFile", item);
+    navLi.innerHTML = item;
+    navUl.appendChild(navLi);
     
     newButton.addEventListener("click", (event) => {
         event.stopImmediatePropagation();
@@ -90,9 +115,14 @@ function createElement(item){
         delOjectMetaData('file', dir + '/' + file);
     });
     
+    newFieldSet.setAttribute("class", "navContent");
+    newFieldSet.setAttribute('id', item);
+    
+    
     newFieldSet.appendChild(newLabel);
     newFieldSet.appendChild(newTextArea);
     newFieldSet.appendChild(newButton);
+    newFieldSet.appendChild(newLegend);
     cardId.appendChild(newFieldSet);
 };
 
@@ -118,13 +148,7 @@ function sreateHeadCard(item, num){
     }  
 }
 
-//создание общих элементов управления
-function createNavCard(metaName){
-    document.getElementById('submitCard').setAttribute('ctl', metaName);
-    document.getElementById('submitCard').addEventListener('click', postJSON);
-    document.getElementById('cancelCard').addEventListener('click', exitCard);
-};
-
+//обновление или смена экрана
 function exitCard(){
     //очистка экрана карточи метаданных
     clearCard();

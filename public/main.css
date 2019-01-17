@@ -48,3 +48,7 @@ td{
 .unvisible{
     display: none;
 }
+
+.navContent{
+    background-color: #FFE4E1;
+}

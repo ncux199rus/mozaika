@@ -132,7 +132,7 @@ function writeFileClasses(fileName, fileBody){
         //fs.writeFileSync(fileName, fileBody);
         
         fs.writeFile(fileName, fileBody, (err, result) => {
-            console.log(123, err, result)
+            console.log(123, err, result);
             if (err) 
                 //throw err;
                 return reject(err);
@@ -142,7 +142,7 @@ function writeFileClasses(fileName, fileBody){
             
         });
 
-    })
+    });
 };
 //запись метаданных в каталог 
 //не используется!!!!!!!!!!!!!!

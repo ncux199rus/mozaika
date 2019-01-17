@@ -87,6 +87,7 @@ function getListClasses(){
             tableClasses.appendChild(newTbody);
             
             a = JSON.parse(xhr.responseText);
+            
             a.forEach(function(item, i, a){
                 let newRow = document.createElement('tr');
                 let newDataName = document.createElement('td');
